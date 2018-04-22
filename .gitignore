@@ -64,6 +64,7 @@
 .clang_complete
 .emacs.desktop
 .idea
+.idea/*
 cmake-build-*
 CMakeCache.txt
 .svn
