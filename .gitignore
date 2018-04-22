@@ -74,6 +74,8 @@ nbdist/
 .emacs.desktop
 .idea
 .idea/*
+out
+out/*
 cmake-build-*
 CMakeCache.txt
 .svn
