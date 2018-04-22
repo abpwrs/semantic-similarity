@@ -7,6 +7,15 @@
 *.o
 *.so
 
+# NetBeans #
+############
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -64,6 +73,7 @@
 .clang_complete
 .emacs.desktop
 .idea
+.idea/*
 cmake-build-*
 CMakeCache.txt
 .svn
