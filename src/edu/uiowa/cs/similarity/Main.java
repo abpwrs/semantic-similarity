@@ -41,7 +41,9 @@ public class Main {
             // this will create a fresh data structure
             for (HashSet<String> sentence : test) {
                 for (String word : sentence) {
-                    // there is a temp for each word
+
+                    // This could be an individual semantic vector object for each word
+                    //////////////////////////////////////////////////////////
                     HashMap<String, Integer> temp = new HashMap<>();
                     for (HashSet<String> sentence2 : test) {
                         if (sentence2.contains(word)) {
@@ -56,7 +58,8 @@ public class Main {
                             }
                         }
                     }
-                    main_map.put(word, temp);
+                    //////////////////////////////////////////////////////////
+                    main_map.put(word, temp/* or new Vector(UNKNOWN).getVector()*/);
                 }
             }
         } else {
