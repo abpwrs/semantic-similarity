@@ -17,6 +17,9 @@ public class Main {
         System.out.println("Supported commands:");
         System.out.println("help - Print the supported commands");
         System.out.println("quit - Quit this program");
+        System.out.println("index - indexes a file (second argument) to be used as a semantic vector");
+        System.out.println("sentences - prints the sentences");
+        System.out.println("num - prints the number of sentences or vectors depending on the second arg");
     }
 
     //Run a new parse into the list of sentences, and then interpret that list into vectors for the main map.
@@ -98,7 +101,6 @@ public class Main {
                 System.out.println(ele);
             }
             System.out.print("\n");*/
-
             if (s_command[0].equals("help") || s_command[0].equals("h")) {
                 printMenu();
             } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
@@ -106,14 +108,24 @@ public class Main {
             } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
                 // TODO: File doesn't exist case. Try except? Don't know how to use those well. - DONE
                 // I altered the FileParser so it doesn't exit
-                index(s_command[1], allSentences, main_map);
+                if (s_command.length == 2) {
+                    index(s_command[1], allSentences, main_map);
+                } else {
+                    System.out.println("Incorrect Command Usage:");
+                    printMenu();
+                }
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(allSentences);
             } else if (s_command[0].equals("num") || s_command[0].equals("n")) {
-                if (s_command[1].equals("sentences")) {
-                    System.out.println(allSentences.size());
+                if (s_command.length == 2) {
+                    if (s_command[1].equals("sentences")) {
+                        System.out.println(allSentences.size());
+                    } else {
+                        System.out.println("Unrecognized argument. See help for more details.");
+                    }
                 } else {
-                    System.out.println("Unrecognized argument. See help for more details.");
+                    System.out.println("Incorrect Command Usage:");
+                    printMenu();
                 }
             } else {
                 System.err.println("Unrecognized command");
