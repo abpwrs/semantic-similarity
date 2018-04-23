@@ -4,7 +4,6 @@ import opennlp.tools.stemmer.PorterStemmer;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -51,7 +50,7 @@ public class FileParser {
      */
     public static ArrayList<HashSet<String>> parse(String fileName) {
         try {
-            Scanner fileScanner = new Scanner(Paths.get(fileName));
+            Scanner fileScanner = new Scanner(new File(fileName));
             fileScanner.useDelimiter("\n");
             StringBuilder builder = new StringBuilder();
             ArrayList<HashSet<String>> result = new ArrayList<>();
@@ -89,18 +88,13 @@ public class FileParser {
                 }
             }
 
-            // diagnostic printing
-            // System.out.println(result);
             return result;
 
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("File: " + fileName + " does not exist. \n Killing Program.");
-            System.exit(-1);
+            System.out.println("\nFile: " + fileName + " does not exist.\n");
         }
 
-        System.err.println("Unknown error occurred in FileParser");
         return null;
     }
 

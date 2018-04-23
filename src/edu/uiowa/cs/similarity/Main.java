@@ -21,30 +21,36 @@ public class Main {
 
     //Run a new parse into the list of sentences, and then interpret that list into vectors for the main map.
     public static void index(String filename, ArrayList<HashSet<String>> allSentences,
-                                                   HashMap<String, HashMap<String, Integer>> main_map)
-    {
-        long start = System.currentTimeMillis();
+                             HashMap<String, HashMap<String, Integer>> main_map) {
+
         System.out.println("Indexing " + filename);
-        ArrayList<HashSet<String>> parseResult = FileParser.parseFile(filename);
-        allSentences.addAll(parseResult);
-        if (main_map.isEmpty()) {
-            // this will create a fresh data structure
-            for (HashSet<String> sentence : parseResult) {
-                for (String word : sentence) {
-                    //TODO: What if there is an existing word vector?
-                    //  should we check the WordDB before generating a brand new vector?
-                    //  if it exists in the WordDB, add a new parseResult to the vector?
-                    // If yes, we need a vector method to update the existing "temp" hashmap with new parse.
-                    SemanticVector t = new SemanticVector(word, parseResult);
-                    main_map.put(word, t.getVector());
+        ArrayList<HashSet<String>> parseResult = FileParser.parse(filename);
+        // small null pointer exception to catch
+        if (parseResult != null) {
+            long start = System.currentTimeMillis();
+            allSentences.addAll(parseResult);
+            if (main_map.isEmpty()) {
+                // this will create a fresh data structure
+                for (HashSet<String> sentence : parseResult) {
+                    for (String word : sentence) {
+                        //TODO: What if there is an existing word vector?
+                        //  should we check the WordDB before generating a brand new vector? - Yes
+                        //  if it exists in the WordDB, add a new parseResult to the vector? - Yes
+                        // If yes, we need a vector method to update the existing "temp" hashmap with new parse.
+                        // I will add this to the SemanticVector class
+                        SemanticVector t = new SemanticVector(word, parseResult);
+                        main_map.put(word, t.getVector());
+                    }
                 }
+            } else {
+                System.out.println("Can't index twice yet! Whoops.");
+                // TODO: We need to be able to add onto the main_map
+                // WordDB.update(parseResult)
             }
-        } else {
-            System.out.println("Can't index twice yet! Whoops.");
-            // TODO: We need to be able to add onto the main_map
+
+            long end = System.currentTimeMillis();
+            System.out.println("Time to create/append to data structure " + ((float) (end - start) / 1000f) + " seconds");
         }
-        long end = System.currentTimeMillis();
-        System.out.println("time to create data structure " + ((float) (end - start) / 1000f) + " seconds");
     }
 
     public static void main(String[] args) throws IOException {
@@ -55,20 +61,18 @@ public class Main {
 
         //We Need a list of all sentences collected, across all indexes.
         //We need a command to print all sentences, and we couldn't do that from the main_map,
-            //so I added an in-between step to store just sentences, ready for recall from "allSentences".
-        //  TODO: Tell me straight up if we don't and there's a better way to do it <3
+        //so I added an in-between step to store just sentences, ready for recall from "allSentences".
+        // TODO: Tell me straight up if we don't and there's a better way to do it <3
+        // TODO: Ideally this will be replaced with a WordDB, but this is good
         ArrayList<HashSet<String>> allSentences = new ArrayList<HashSet<String>>();
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-<<<<<<< HEAD
-        ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
+        //ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
         // System.out.println(test);
-=======
         //parseResult = index("src/data/swanns_way.txt");
         // System.out.println(parseResult);
 
->>>>>>> origin/ben_backup
         ///////////////////////////////////////////////////////////
         //
         // Prototyping the conversion of HashSet<HashSet<String>> to HashMap<String,HashMap<String,Integer>>
@@ -100,19 +104,18 @@ public class Main {
             } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
                 System.exit(0);
             } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
-                //TODO: File doesn't exist case. Try except? Don't know how to use those well.
+                // TODO: File doesn't exist case. Try except? Don't know how to use those well. - DONE
+                // I altered the FileParser so it doesn't exit
                 index(s_command[1], allSentences, main_map);
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(allSentences);
             } else if (s_command[0].equals("num") || s_command[0].equals("n")) {
-                if (s_command[1].equals("sentences")){
+                if (s_command[1].equals("sentences")) {
                     System.out.println(allSentences.size());
-                }
-                else{
+                } else {
                     System.out.println("Unrecognized argument. See help for more details.");
                 }
-            }
-            else {
+            } else {
                 System.err.println("Unrecognized command");
             }
         }
