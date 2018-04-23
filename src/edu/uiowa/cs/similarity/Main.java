@@ -1,7 +1,5 @@
 package edu.uiowa.cs.similarity;
 
-import data.FileParser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,8 +13,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        FileParser parser = new FileParser();
-        parser.parseFile("src/data/cleanup_test.txt");
+
+        // Testing FileParser (can be commented out for submission)
+        ///////////////////////////////////////////////////////////
+        // FileParser parser = new FileParser();
+        // parser.parseFile("src/data/cleanup_test.txt");
+        ///////////////////////////////////////////////////////////
+
         while (true) {
             System.out.print("> ");
             String command = input.readLine();
