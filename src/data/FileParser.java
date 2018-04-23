@@ -60,7 +60,7 @@ public class FileParser {
             // get rid of caps
             words = words.toLowerCase();
             // get rid of in sentence punctuation
-            words = words.replaceAll(",|, |--|:|;|\"|'", "");
+            words = words.replaceAll("\\(|\\)|,|, |--|:|;|\"|'|' ", "");
             // split into sentences
             String[] sentences = words.split("[!?.]");
             for (String sentence : sentences) {
@@ -69,7 +69,7 @@ public class FileParser {
                 String[] word_arr = sentence.split("\\s");
                 for (String word : word_arr) {
                     // validates that the word should be added
-                    if (!STOPWORDS.contains(word) && !word.matches("\\s") && !word.matches("")) {
+                    if (!STOPWORDS.contains(word) && !word.matches("\\s") && !word.matches("") && !isNumeric(word)) {
                         // adds the stem of the word
                         temp.add(porterStemmer.stem(word));
                         // reset PorterStemmer
@@ -95,5 +95,14 @@ public class FileParser {
 
         System.err.println("Unknown error occurred in FileParser");
         return null;
+    }
+
+    private boolean isNumeric(String x) {
+        try {
+            Integer.parseInt(x);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }
