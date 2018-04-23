@@ -5,17 +5,23 @@ import opennlp.tools.stemmer.PorterStemmer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Class designed to parse any file of strings
+ */
 public class FileParser {
 
-    // Private constructor stops anyone from instantiating an object of this type
-    // example usage:
-    // misc.FileParser.parseFile("hello.txt");
-    // could return some data structure that out semantic vector can then store
+    /**
+     * A LinkedList of words that are too common to be of value
+     */
     private LinkedList<String> STOPWORDS;
 
+    /**
+     * Constructor to initialise the STOPWORDS LinkedList
+     */
     public FileParser() {
         try {
             Scanner stopFile = new Scanner(new File("src/data/stopwords.txt"));
@@ -31,31 +37,63 @@ public class FileParser {
         }
     }
 
-    // this is a static constructor
-    // Returns a list of sentences
-    public LinkedList<String> parseFile(String fileName) {
+
+    /**
+     * @param fileName the name of the file to be parsed
+     * @return a hashset of sentences containing unique and validated words as strings
+     */
+    public HashSet<HashSet<String>> parseFile(String fileName) {
         try {
             Scanner fileScanner = new Scanner(Paths.get(fileName));
+            fileScanner.useDelimiter("\n");
             StringBuilder builder = new StringBuilder();
+            HashSet<HashSet<String>> result = new HashSet<>();
+            // open source implementation of the porter stemming algorithm
+            PorterStemmer porterStemmer = new PorterStemmer();
 
-            // TODO: Implement the parsing and cleaning of input
+            // Builds one big string
             while (fileScanner.hasNext()) {
                 builder.append(fileScanner.next()).append(" ");
             }
+            // convert StringBuilder to String
             String words = builder.toString();
+            // get rid of caps
             words = words.toLowerCase();
+            // get rid of in sentence punctuation
             words = words.replaceAll(",|, |--|:|;|\"|'", "");
+            // split into sentences
+            String[] sentences = words.split("[!?.]");
+            for (String sentence : sentences) {
+                HashSet<String> temp = new HashSet<>();
+                // split each sentence into a set of words
+                String[] word_arr = sentence.split("\\s");
+                for (String word : word_arr) {
+                    // validates that the word should be added
+                    if (!STOPWORDS.contains(word) && !word.matches("\\s") && !word.matches("")) {
+                        // adds the stem of the word
+                        temp.add(porterStemmer.stem(word));
+                        // reset PorterStemmer
+                        porterStemmer.reset();
+                    }
+                }
+                // check that temp isn't empty
+                if (!temp.isEmpty()) {
+                    result.add(temp);
+                }
+            }
 
-            System.out.println(words);
-            PorterStemmer porterStemmer = new PorterStemmer();
+            // diagnostic printing
+            // System.out.println(result);
+            return result;
 
 
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("File: " + fileName + " does not exist. \n Killing Program.");
+            System.exit(-1);
         }
 
-        // TODO: Change Return Type
+        System.err.println("Unknown error occurred in FileParser");
         return null;
     }
 }
