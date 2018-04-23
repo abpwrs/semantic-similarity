@@ -27,9 +27,8 @@ public class FileParser {
 
     }
 
-    /**
-     * Static Constructor to initialize the STOPWORDS LinkedList
-     */
+
+    // Static Constructor to initialize the STOPWORDS LinkedList
     static {
         try {
             Scanner stopFile = new Scanner(new File("src/data/stopwords.txt"));
@@ -50,7 +49,7 @@ public class FileParser {
      * @param fileName the name of the file to be parsed
      * @return a HashSet of sentences containing unique and validated words as strings
      */
-    public static ArrayList<HashSet<String>> parseFile(String fileName) {
+    public static ArrayList<HashSet<String>> parse(String fileName) {
         try {
             Scanner fileScanner = new Scanner(Paths.get(fileName));
             fileScanner.useDelimiter("\n");

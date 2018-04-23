@@ -5,8 +5,27 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class SemanticVector implements GenericVector {
-    String word;
-    HashMap<String, Integer> temp;
+    // Attributes
+    String main_word;
+    HashMap<String, Integer> relatedWords;
+
+    //Methods
+    public SemanticVector(String main_word, ArrayList<HashSet<String>> dataset) {
+        relatedWords = new HashMap<>();
+        for (HashSet<String> sentence : dataset) {
+            if (sentence.contains(main_word)) {
+                for (String word : sentence) {
+                    if (!main_word.equals(word)) {
+                        if (relatedWords.containsKey(word)) {
+                            relatedWords.put(word, relatedWords.get(word) + 1);
+                        } else {
+                            relatedWords.put(word, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public double getMagnitude() {
@@ -15,24 +34,12 @@ public class SemanticVector implements GenericVector {
     }
 
     public HashMap<String, Integer> getVector() {
-        return temp;
+        return relatedWords;
     }
 
-    public SemanticVector(String word, ArrayList<HashSet<String>> dataset) {
-        temp = new HashMap<>();
-        for (HashSet<String> sentence2 : dataset) {
-            if (sentence2.contains(word)) {
-                for (String word2 : sentence2) {
-                    if (!word.equals(word2)) {
-                        if (temp.containsKey(word2)) {
-                            temp.put(word2, temp.get(word2) + 1);
-                        } else {
-                            temp.put(word2, 1);
-                        }
-                    }
-                }
-            }
-        }
+    public String getWord() {
+        return main_word;
     }
+
 
 }

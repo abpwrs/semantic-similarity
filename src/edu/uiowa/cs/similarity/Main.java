@@ -21,10 +21,11 @@ public class Main {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         // this Data structure should have a Class as a wrapper around it
         HashMap<String, HashMap<String, Integer>> main_map = new HashMap<>();
+        HashMap<String, SemanticVector> vector_map = new HashMap<>();
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        ArrayList<HashSet<String>> test = FileParser.parseFile("src/data/swanns_way.txt");
+        ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
         //
