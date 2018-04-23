@@ -1,5 +1,6 @@
 package edu.uiowa.cs.similarity;
 
+import Vectors.SemanticVector;
 import data.FileParser;
 
 import java.io.BufferedReader;
@@ -23,10 +24,9 @@ public class Main {
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        ArrayList<HashSet<String>> test = FileParser.parseFile("src/data/repetition_test.txt");
+        ArrayList<HashSet<String>> test = FileParser.parseFile("src/data/swanns_way.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
-
         //
         // Prototyping the conversion of HashSet<HashSet<String>> to HashMap<String,HashMap<String,Integer>>
         // for each word in each sentence - this is a double for loop
@@ -41,25 +41,8 @@ public class Main {
             // this will create a fresh data structure
             for (HashSet<String> sentence : test) {
                 for (String word : sentence) {
-
-                    // This could be an individual semantic vector object for each word
-                    //////////////////////////////////////////////////////////
-                    HashMap<String, Integer> temp = new HashMap<>();
-                    for (HashSet<String> sentence2 : test) {
-                        if (sentence2.contains(word)) {
-                            for (String word2 : sentence2) {
-                                if (!word.equals(word2)) {
-                                    if (temp.containsKey(word2)) {
-                                        temp.put(word2, temp.get(word2) + 1);
-                                    } else {
-                                        temp.put(word2, 1);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //////////////////////////////////////////////////////////
-                    main_map.put(word, temp/* or new Vector(UNKNOWN).getVector()*/);
+                    SemanticVector t = new SemanticVector(word, test);
+                    main_map.put(word, t.getVector());
                 }
             }
         } else {

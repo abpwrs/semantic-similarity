@@ -10,7 +10,7 @@ public class TopJ {
     // some sort of main method
     // I don't actually know the return type or what else needs to be passed in
     // this is just an outline
-    public static HashMap<String, Integer> run(SimilarityFunction function) {
+    public static HashMap<String, Double> run(SimilarityFunction function) {
         return null;
     }
 }
