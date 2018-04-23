@@ -40,7 +40,7 @@ public class FileParser {
 
     /**
      * @param fileName the name of the file to be parsed
-     * @return a hashset of sentences containing unique and validated words as strings
+     * @return a HashSet of sentences containing unique and validated words as strings
      */
     public HashSet<HashSet<String>> parseFile(String fileName) {
         try {
