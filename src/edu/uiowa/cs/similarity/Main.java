@@ -17,6 +17,10 @@ public class Main {
         System.out.println("quit - Quit this program");
     }
 
+    public static void startParsing(String filename){
+        
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         // this Data structure should have a Class as a wrapper around it
@@ -24,7 +28,7 @@ public class Main {
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        ArrayList<HashSet<String>> test = FileParser.parseFile("src/data/swanns_way.txt");
+        ArrayList<HashSet<String>> parseResult = FileParser.parseFile("src/data/swanns_way.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
         //
@@ -39,9 +43,9 @@ public class Main {
         long start = System.currentTimeMillis();
         if (main_map.isEmpty()) {
             // this will create a fresh data structure
-            for (HashSet<String> sentence : test) {
+            for (HashSet<String> sentence : parseResult) {
                 for (String word : sentence) {
-                    SemanticVector t = new SemanticVector(word, test);
+                    SemanticVector t = new SemanticVector(word, parseResult);
                     main_map.put(word, t.getVector());
                 }
             }
@@ -57,11 +61,16 @@ public class Main {
             String command = input.readLine();
             // generalize command to work for any case (Upper/Lower)
             command = command.toLowerCase();
-            if (command.equals("help") || command.equals("h")) {
+            String[] s_command = command.split("\\+s");
+            System.out.println(s_command);
+            if (s_command[0].equals("help") || s_command[0].equals("h")) {
                 printMenu();
-            } else if (command.equals("quit") || command.equals("q")) {
+            } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
                 System.exit(0);
-            } else {
+            } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
+                System.exit(0);
+            }
+            else {
                 System.err.println("Unrecognized command");
             }
         }
