@@ -1,4 +1,4 @@
-package misc;
+package data;
 
 import opennlp.tools.stemmer.PorterStemmer;
 

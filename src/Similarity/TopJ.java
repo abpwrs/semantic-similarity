@@ -1,6 +1,4 @@
-package misc;
-
-import Similarity.SimilarityFunction;
+package Similarity;
 
 import java.util.HashMap;
 

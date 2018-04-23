@@ -1,6 +1,6 @@
 package edu.uiowa.cs.similarity;
 
-import misc.FileParser;
+import data.FileParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
