@@ -23,7 +23,7 @@ public class Main {
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        HashSet<HashSet<String>> test = parser.parseFile("src/data/sleepy_hollow.txt");
+        HashSet<HashSet<String>> test = parser.parseFile("src/data/repetition_test.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
 
@@ -65,7 +65,7 @@ public class Main {
         }
         long end = System.currentTimeMillis();
         System.out.println("\ntime to create data structure " + ((float) (end - start) / 1000f) + " seconds\n");
-        // System.out.println(main_map);
+        System.out.println(main_map);
 
         while (true) {
             System.out.print("> ");
