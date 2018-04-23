@@ -17,13 +17,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        FileParser parser = new FileParser();
         // this Data structure should have a Class as a wrapper around it
         HashMap<String, HashMap<String, Integer>> main_map = new HashMap<>();
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        HashSet<HashSet<String>> test = parser.parseFile("src/data/repetition_test.txt");
+        HashSet<HashSet<String>> test = FileParser.parseFile("src/data/repetition_test.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
 

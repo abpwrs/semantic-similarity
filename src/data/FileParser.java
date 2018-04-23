@@ -49,7 +49,7 @@ public class FileParser {
      * @param fileName the name of the file to be parsed
      * @return a HashSet of sentences containing unique and validated words as strings
      */
-    public HashSet<HashSet<String>> parseFile(String fileName) {
+    public static HashSet<HashSet<String>> parseFile(String fileName) {
         try {
             Scanner fileScanner = new Scanner(Paths.get(fileName));
             fileScanner.useDelimiter("\n");
@@ -104,7 +104,7 @@ public class FileParser {
         return null;
     }
 
-    private boolean isNumeric(String x) {
+    private static boolean isNumeric(String x) {
         try {
             Integer.parseInt(x);
         } catch (NumberFormatException e) {
