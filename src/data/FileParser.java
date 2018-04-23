@@ -17,18 +17,25 @@ public class FileParser {
     /**
      * A LinkedList of words that are too common to be of value
      */
-    private LinkedList<String> STOPWORDS;
+    private static LinkedList<String> STOP_WORDS;
 
     /**
-     * Constructor to initialise the STOPWORDS LinkedList
+     * Private Constructor stops anyone from instantiating an object of this type
      */
-    public FileParser() {
+    private FileParser() {
+
+    }
+
+    /**
+     * Static Constructor to initialize the STOPWORDS LinkedList
+     */
+    static {
         try {
             Scanner stopFile = new Scanner(new File("src/data/stopwords.txt"));
-            STOPWORDS = new LinkedList<>();
+            STOP_WORDS = new LinkedList<>();
             stopFile.useDelimiter("\n");
             while (stopFile.hasNext()) {
-                STOPWORDS.add(stopFile.next());
+                STOP_WORDS.add(stopFile.next());
             }
 
         } catch (IOException e) {
@@ -42,7 +49,7 @@ public class FileParser {
      * @param fileName the name of the file to be parsed
      * @return a HashSet of sentences containing unique and validated words as strings
      */
-    public HashSet<HashSet<String>> parseFile(String fileName) {
+    public static HashSet<HashSet<String>> parseFile(String fileName) {
         try {
             Scanner fileScanner = new Scanner(Paths.get(fileName));
             fileScanner.useDelimiter("\n");
@@ -69,7 +76,7 @@ public class FileParser {
                 String[] word_arr = sentence.split("\\s");
                 for (String word : word_arr) {
                     // validates that the word should be added
-                    if (!STOPWORDS.contains(word) && !word.matches("\\s") && !word.matches("") && !isNumeric(word)) {
+                    if (!STOP_WORDS.contains(word) && !word.matches("\\s") && !word.matches("") && !isNumeric(word)) {
                         // adds the stem of the word
                         temp.add(porterStemmer.stem(word));
                         // reset PorterStemmer
@@ -97,7 +104,7 @@ public class FileParser {
         return null;
     }
 
-    private boolean isNumeric(String x) {
+    private static boolean isNumeric(String x) {
         try {
             Integer.parseInt(x);
         } catch (NumberFormatException e) {

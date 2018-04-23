@@ -17,13 +17,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        FileParser parser = new FileParser();
         // this Data structure should have a Class as a wrapper around it
         HashMap<String, HashMap<String, Integer>> main_map = new HashMap<>();
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        HashSet<HashSet<String>> test = parser.parseFile("src/data/repetition_test.txt");
+        HashSet<HashSet<String>> test = FileParser.parseFile("src/data/repetition_test.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
 
@@ -41,7 +40,9 @@ public class Main {
             // this will create a fresh data structure
             for (HashSet<String> sentence : test) {
                 for (String word : sentence) {
-                    // there is a temp for each word
+
+                    // This could be an individual semantic vector object for each word
+                    //////////////////////////////////////////////////////////
                     HashMap<String, Integer> temp = new HashMap<>();
                     for (HashSet<String> sentence2 : test) {
                         if (sentence2.contains(word)) {
@@ -56,7 +57,8 @@ public class Main {
                             }
                         }
                     }
-                    main_map.put(word, temp);
+                    //////////////////////////////////////////////////////////
+                    main_map.put(word, temp/* or new Vector(UNKNOWN).getVector()*/);
                 }
             }
         } else {
