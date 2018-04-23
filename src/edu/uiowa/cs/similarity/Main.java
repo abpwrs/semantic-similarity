@@ -5,6 +5,7 @@ import data.FileParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -22,7 +23,7 @@ public class Main {
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
-        HashSet<HashSet<String>> test = FileParser.parseFile("src/data/repetition_test.txt");
+        ArrayList<HashSet<String>> test = FileParser.parseFile("src/data/repetition_test.txt");
         // System.out.println(test);
         ///////////////////////////////////////////////////////////
 

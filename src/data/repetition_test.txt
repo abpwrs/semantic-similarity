@@ -1,4 +1,4 @@
-This is an extra test hello world.
+This is an extra test.
 This is an extra test.
 This is an extra test.
 This is an extra test.

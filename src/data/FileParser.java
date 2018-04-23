@@ -5,6 +5,7 @@ import opennlp.tools.stemmer.PorterStemmer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -49,12 +50,12 @@ public class FileParser {
      * @param fileName the name of the file to be parsed
      * @return a HashSet of sentences containing unique and validated words as strings
      */
-    public static HashSet<HashSet<String>> parseFile(String fileName) {
+    public static ArrayList<HashSet<String>> parseFile(String fileName) {
         try {
             Scanner fileScanner = new Scanner(Paths.get(fileName));
             fileScanner.useDelimiter("\n");
             StringBuilder builder = new StringBuilder();
-            HashSet<HashSet<String>> result = new HashSet<>();
+            ArrayList<HashSet<String>> result = new ArrayList<>();
             // open source implementation of the porter stemming algorithm
             PorterStemmer porterStemmer = new PorterStemmer();
 
