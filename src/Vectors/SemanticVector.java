@@ -20,19 +20,7 @@ public class SemanticVector implements GenericVector {
     public SemanticVector(String main_word, ArrayList<HashSet<String>> dataset) {
         this.base_word = main_word;
         this.related_words = new HashMap<>();
-        for (HashSet<String> sentence : dataset) {
-            if (sentence.contains(main_word)) {
-                for (String word : sentence) {
-                    if (!main_word.equals(word)) {
-                        if (related_words.containsKey(word)) {
-                            this.related_words.put(word, this.related_words.get(word) + 1);
-                        } else {
-                            this.related_words.put(word, 1);
-                        }
-                    }
-                }
-            }
-        }
+        this.update(dataset);
         this.updateMagnitude();
         this.magnitude_up_to_date = true;
     }
@@ -86,7 +74,21 @@ public class SemanticVector implements GenericVector {
     @Override
     public void update(ArrayList<HashSet<String>> dataset) {
         this.magnitude_up_to_date = false;
-        //TODO: write a method to update the vector
+        for (HashSet<String> sentence : dataset) {
+            if (sentence.contains(this.base_word)) {
+                for (String word : sentence) {
+                    if (!this.base_word.equals(word)) {
+                        if (related_words.containsKey(word)) {
+                            this.related_words.put(word, this.related_words.get(word) + 1);
+                        } else {
+                            this.related_words.put(word, 1);
+                        }
+                    }
+                }
+            }
+        }
+        this.updateMagnitude();
+        this.magnitude_up_to_date = true;
     }
 
 
