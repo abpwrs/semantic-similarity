@@ -1,5 +1,6 @@
 package data;
 
+import Similarity.SimilarityFunction;
 import Vectors.GenericVector;
 
 import java.util.ArrayList;
@@ -56,5 +57,12 @@ public class WordDB {
      */
     public int getNumVectors() {
         return words_as_vectors.size();
+    }
+
+    public HashMap<String, Double> TopJ(String word, Integer J, SimilarityFunction simFunc) {
+        //TODO: Isolate the elements we need to compare
+        //TODO: 
+
+        return null;
     }
 }
