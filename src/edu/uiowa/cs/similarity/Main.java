@@ -1,7 +1,7 @@
 package edu.uiowa.cs.similarity;
 
+import DB.WordDB;
 import Vectors.SemanticVector;
-import data.WordDB;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -80,9 +80,9 @@ public class Main {
                 }
             } else if (s_command[0].equals("num") || s_command[0].equals("n")) {
                 if (s_command.length == 2) {
-                    if (s_command[1].equals("sentences")) {
+                    if (s_command[1].equals("sentences") || s_command[1].equals("s")) {
                         System.out.println(wordDB.numSentences());
-                    } else if (s_command[1].equals("vectors")) {
+                    } else if (s_command[1].equals("vectors") || s_command[1].equals("v")) {
                         System.out.println(wordDB.numVectors());
                     } else {
                         System.out.println("Unrecognized argument. See help for more details.");

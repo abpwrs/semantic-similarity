@@ -9,7 +9,6 @@ public class SemanticVector implements GenericVector {
     private String base_word;
     private Double magnitude;
     private HashMap<String, Integer> related_words;
-    private boolean magnitude_up_to_date = false;
 
     //Methods
 
@@ -22,7 +21,6 @@ public class SemanticVector implements GenericVector {
         this.related_words = new HashMap<>();
         this.update(dataset);
         this.updateMagnitude();
-        this.magnitude_up_to_date = true;
     }
 
     /**
@@ -30,9 +28,6 @@ public class SemanticVector implements GenericVector {
      */
     @Override
     public double getMagnitude() {
-        if (!magnitude_up_to_date) {
-            this.updateMagnitude();
-        }
         return this.magnitude;
 
     }
@@ -65,7 +60,6 @@ public class SemanticVector implements GenericVector {
         }
         this.magnitude = Math.sqrt(this.magnitude);
 
-        this.magnitude_up_to_date = true;
     }
 
     /**
@@ -73,7 +67,6 @@ public class SemanticVector implements GenericVector {
      */
     @Override
     public void update(ArrayList<HashSet<String>> dataset) {
-        this.magnitude_up_to_date = false;
         for (HashSet<String> sentence : dataset) {
             if (sentence.contains(this.base_word)) {
                 for (String word : sentence) {
@@ -88,7 +81,6 @@ public class SemanticVector implements GenericVector {
             }
         }
         this.updateMagnitude();
-        this.magnitude_up_to_date = true;
     }
 
 

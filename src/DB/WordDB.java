@@ -1,4 +1,4 @@
-package data;
+package DB;
 
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
@@ -17,42 +17,57 @@ public class WordDB {
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
     private HashMap<String, SemanticVector> words_as_vectors;
+    HashMap<String, Boolean> updated = new HashMap<>();
     private ArrayList<HashSet<String>> all_sentences;
+    private boolean DB_exists;
+
+    private void reset_updated_false() {
+        for (String temp : updated.keySet()) {
+            updated.put(temp, false);
+        }
+    }
 
     /**
      *
      */
     public WordDB() {
         this.words_as_vectors = new HashMap<>();
-        all_sentences = new ArrayList<>();
+        this.all_sentences = new ArrayList<>();
+        this.DB_exists = false;
     }
 
     /**
      * @param filename
      */
+    //TODO: Optimize Indexing and File Parsing
     public void index(String filename) {
-        // TODO: find a way of updating the DataBase
-        // for each word in the file data we need to update the semantic vector of that class
+        this.reset_updated_false();
+        // for each word in the file data we need to updated the semantic vector of that class
         System.out.println("Indexing " + filename);
         ArrayList<HashSet<String>> parseResult = FileParser.parse(filename);
-        // small null pointer exception to catch
+        // small null pointer exception to catch if file not found
         if (parseResult != null) {
             long start = System.currentTimeMillis();
-            all_sentences.addAll(parseResult);
+            this.all_sentences.addAll(parseResult);
             for (HashSet<String> sentence : parseResult) {
                 for (String word : sentence) {
-                    if (words_as_vectors.containsKey(word)) {
-                        // Case where the vector already exists, so it just needs to be update
-                        words_as_vectors.get(word).update(parseResult);
-                    } else {
-                        // Case where a new vector needs to be created
-                        SemanticVector semanticVector = new SemanticVector(word, parseResult);
-                        words_as_vectors.put(word, semanticVector);
+                    if (!updated.containsKey(word) || !updated.get(word)) {
+                        if (this.words_as_vectors.containsKey(word)) {
+                            // Case where the vector already exists, so it just needs to be updated
+                            this.words_as_vectors.get(word).update(parseResult);
+                            this.updated.put(word, true);
+                        } else {
+                            // Case where a new vector needsi  to be created
+                            SemanticVector semanticVector = new SemanticVector(word, parseResult);
+                            this.words_as_vectors.put(word, semanticVector);
+                            this.updated.put(word, true);
+                        }
                     }
                 }
             }
             long end = System.currentTimeMillis();
-            System.out.println("Time to create/append to Word Database (WordDB) " + ((float) (end - start) / 1000f) + " seconds");
+            System.out.println("Time taken to " + (!this.DB_exists ? "create" : "append to") + " Word Database (WordDB) " + ((float) (end - start) / 1000f) + " seconds");
+            this.DB_exists = true;
         }
     }
 
@@ -60,14 +75,14 @@ public class WordDB {
      * @return
      */
     public int numSentences() {
-        return all_sentences.size();
+        return this.all_sentences.size();
     }
 
     /**
      * @return
      */
     public ArrayList<HashSet<String>> getAllSentences() {
-        return all_sentences;
+        return this.all_sentences;
     }
 
 
@@ -75,14 +90,14 @@ public class WordDB {
      * @return
      */
     public int numVectors() {
-        return words_as_vectors.size();
+        return this.words_as_vectors.size();
     }
 
     /**
      * @return
      */
     public Collection<SemanticVector> getVectors() {
-        return words_as_vectors.values();
+        return this.words_as_vectors.values();
     }
 
     /**
