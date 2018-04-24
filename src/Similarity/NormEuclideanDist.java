@@ -1,8 +1,10 @@
 package Similarity;
 
+import Vectors.SemanticVector;
+
 public class NormEuclideanDist implements SimilarityFunction {
     @Override
-    public double calculateSimilarity() {
+    public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         return 0;
     }
 

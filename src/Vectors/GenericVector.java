@@ -12,8 +12,6 @@ public interface GenericVector {
 
     String getWord();
 
-    void updateMagnitude();
-
     void update(ArrayList<HashSet<String>> dataset);
 
 }

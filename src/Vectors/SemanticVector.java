@@ -6,10 +6,10 @@ import java.util.HashSet;
 
 public class SemanticVector implements GenericVector {
     // Attributes
-    String main_word;
-    Double magnitude;
-    HashMap<String, Integer> relatedWords;
-    boolean magnitude_up_to_date = false;
+    private String base_word;
+    private Double magnitude;
+    private HashMap<String, Integer> related_words;
+    private boolean magnitude_up_to_date = false;
 
     //Methods
 
@@ -18,15 +18,16 @@ public class SemanticVector implements GenericVector {
      * @param dataset
      */
     public SemanticVector(String main_word, ArrayList<HashSet<String>> dataset) {
-        this.relatedWords = new HashMap<>();
+        this.base_word = main_word;
+        this.related_words = new HashMap<>();
         for (HashSet<String> sentence : dataset) {
             if (sentence.contains(main_word)) {
                 for (String word : sentence) {
                     if (!main_word.equals(word)) {
-                        if (relatedWords.containsKey(word)) {
-                            this.relatedWords.put(word, this.relatedWords.get(word) + 1);
+                        if (related_words.containsKey(word)) {
+                            this.related_words.put(word, this.related_words.get(word) + 1);
                         } else {
-                            this.relatedWords.put(word, 1);
+                            this.related_words.put(word, 1);
                         }
                     }
                 }
@@ -53,7 +54,7 @@ public class SemanticVector implements GenericVector {
      */
     @Override
     public HashMap<String, Integer> getVector() {
-        return this.relatedWords;
+        return this.related_words;
     }
 
     /**
@@ -61,17 +62,16 @@ public class SemanticVector implements GenericVector {
      */
     @Override
     public String getWord() {
-        return this.main_word;
+        return this.base_word;
     }
 
     /**
      *
      */
-    @Override
-    public void updateMagnitude() {
+    private void updateMagnitude() {
         // this is standard n-dimensional vector magnitude
         this.magnitude = 0.0;
-        for (Integer val : relatedWords.values()) {
+        for (Integer val : related_words.values()) {
             if (val != 0)
                 this.magnitude += val * val;
         }

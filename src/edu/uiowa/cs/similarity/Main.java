@@ -106,8 +106,6 @@ public class Main {
             } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
                 System.exit(0);
             } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
-                // TODO: File doesn't exist case. Try except? Don't know how to use those well. - DONE
-                // I altered the FileParser so it doesn't exit
                 if (s_command.length == 2) {
                     index(s_command[1], allSentences, main_map);
                 } else {
