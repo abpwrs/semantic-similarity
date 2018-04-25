@@ -27,19 +27,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         //TODO: this Data structure should have a Class as a wrapper around it
+        //TODO: BEN: This can be removed now because you made wordDB right?
         WordDB wordDB = new WordDB();
         PorterStemmer stemmer = new PorterStemmer();
-        //We Need a list of all sentences collected, across all indexes.
-        //We need a command to print all sentences, and we couldn't do that from the main_map,
-        //so I added an in-between step to store just sentences, ready for recall from "allSentences".
-        // TODO: Tell me straight up if we don't and there's a better way to do it <3
-        // TODO: Ideally this will be replaced with a WordDB, but this is good
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
         //ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
-        // System.out.println(test);
-        //parseResult = index("src/data/swanns_way.txt");
-        // System.out.println(parseResult);
 
         ///////////////////////////////////////////////////////////
         //
