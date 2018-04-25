@@ -1,11 +1,15 @@
 package edu.uiowa.cs.similarity;
 
+import DB.FileParser;
 import DB.WordDB;
+import Similarity.CosineSimilarity;
 import Vectors.SemanticVector;
+import opennlp.tools.stemmer.PorterStemmer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 public class Main {
 
@@ -23,6 +27,7 @@ public class Main {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         //TODO: this Data structure should have a Class as a wrapper around it
         WordDB wordDB = new WordDB();
+        PorterStemmer stemmer = new PorterStemmer();
         //We Need a list of all sentences collected, across all indexes.
         //We need a command to print all sentences, and we couldn't do that from the main_map,
         //so I added an in-between step to store just sentences, ready for recall from "allSentences".
@@ -62,8 +67,10 @@ public class Main {
             System.out.print("\n");*/
             if (s_command[0].equals("help") || s_command[0].equals("h")) {
                 printMenu();
+
             } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
                 System.exit(0);
+
             } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
                 if (s_command.length == 2) {
                     wordDB.index(s_command[1]);
@@ -71,13 +78,16 @@ public class Main {
                     System.out.println("Incorrect Command Usage:");
                     printMenu();
                 }
+
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(wordDB.getAllSentences());
+
             } else if (s_command[0].equals("vectors") || s_command[0].equals("v")) {
                 for (SemanticVector vector : wordDB.getVectors()) {
                     System.out.println(vector.getWord());
                     System.out.println(vector.getVector());
                 }
+
             } else if (s_command[0].equals("num") || s_command[0].equals("n")) {
                 if (s_command.length == 2) {
                     if (s_command[1].equals("sentences") || s_command[1].equals("s")) {
@@ -91,6 +101,25 @@ public class Main {
                     System.out.println("Incorrect Command Usage:");
                     printMenu();
                 }
+
+            } else if (s_command[0].equals("topj")) {
+                if (s_command.length == 3) {
+                    if (wordDB.contains(stemmer.stem(s_command[1]))) {
+                        if (FileParser.isNumeric(s_command[2])) {
+                            HashMap<String, Double> topj = wordDB.TopJ(s_command[1], Integer.parseInt(s_command[2]), new CosineSimilarity());
+                            System.out.println(topj);
+                        } else {
+                            System.out.println("The third argument must be an integer");
+                        }
+
+                    } else {
+                        System.out.println("Cannot compute TopJ similarity to" + s_command[1]);
+                    }
+                } else {
+                    System.out.println("Incorrect Command Usage:");
+                    printMenu();
+                }
+                stemmer.reset();
             } else {
                 System.err.println("Unrecognized command");
             }

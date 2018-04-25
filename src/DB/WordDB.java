@@ -3,10 +3,7 @@ package DB;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Possible Word DataBase Class
@@ -93,6 +90,10 @@ public class WordDB {
         return this.words_as_vectors.size();
     }
 
+    public boolean contains(String check) {
+        return words_as_vectors.containsKey(check);
+    }
+
     /**
      * @return
      */
@@ -108,10 +109,19 @@ public class WordDB {
      */
     public HashMap<String, Double> TopJ(String word, Integer J, SimilarityFunction simFunc) {
         SemanticVector base_word = words_as_vectors.get(word);
-        //TODO: Isolate the elements we need to compare
-        //TODO: calculate similarity for each vector
-        // Double sim = simFunc.calculateSimilarity();
+        HashMap<String, Double> ret = new HashMap<>();
+        HashMap<String, Double> relation = new HashMap<>();
+        for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
+            if (elem.getValue().getVector().containsKey(word)) {
+                relation.put(elem.getKey(), simFunc.calculateSimilarity(base_word, elem.getValue()));
+            }
+        }
 
-        return null;
+        for (int i = 0; i < J; i++) {
+            String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
+            ret.put(max, relation.get(max));
+            relation.remove(max);
+        }
+        return ret;
     }
 }

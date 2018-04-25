@@ -55,8 +55,9 @@ public class SemanticVector implements GenericVector {
         // this is standard n-dimensional vector magnitude
         this.magnitude = 0.0;
         for (Integer val : related_words.values()) {
-            if (val != 0)
+            if (val != 0) {
                 this.magnitude += val * val;
+            }
         }
         this.magnitude = Math.sqrt(this.magnitude);
 

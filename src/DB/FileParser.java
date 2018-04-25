@@ -98,7 +98,7 @@ public class FileParser {
         return null;
     }
 
-    private static boolean isNumeric(String x) {
+    public static boolean isNumeric(String x) {
         try {
             Integer.parseInt(x);
         } catch (NumberFormatException e) {
