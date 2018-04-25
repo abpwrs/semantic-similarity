@@ -1,9 +1,13 @@
 What is the status of your project?
+we have completed parts 1,2 and 4
 
 
 
 What has each team member done to ensure the success of the team?
-
+we have communicated well together to make consistent and steady progress.
+this communication has also contributed to our ability to maintain the integrity of our git repository.
 
 
 What can each team member do going forward to ensure the success of the team?
+we can continue our communication, as we divide up the remaining tasks -> using a sort of divide an conquer approach.
+also we can come up with new ideas for how to make our program more efficient.
