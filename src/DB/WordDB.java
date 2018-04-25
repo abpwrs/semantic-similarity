@@ -107,9 +107,9 @@ public class WordDB {
      * @param simFunc A simlilarity function to base the vector relations off of
      * @return
      */
-    public HashMap<String, Double> TopJ(String word, Integer J, SimilarityFunction simFunc) {
+    public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {
         SemanticVector base_word = words_as_vectors.get(word);
-        HashMap<String, Double> ret = new HashMap<>();
+        ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
         HashMap<String, Double> relation = new HashMap<>();
         for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
             if (elem.getValue().getVector().containsKey(word)) {
@@ -117,10 +117,16 @@ public class WordDB {
             }
         }
 
-        for (int i = 0; i < J; i++) {
-            String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
-            ret.put(max, relation.get(max));
-            relation.remove(max);
+        boolean sentinel = true;
+        for (int i = 0; i < J && sentinel; i++) {
+            try {
+                String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
+                ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
+                relation.remove(max);
+            } catch (NoSuchElementException e) {
+                System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
+                sentinel = false;
+            }
         }
         return ret;
     }

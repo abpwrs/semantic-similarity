@@ -9,7 +9,8 @@ import opennlp.tools.stemmer.PorterStemmer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Main {
 
@@ -105,16 +106,18 @@ public class Main {
             } else if (s_command[0].equals("topj")) {
                 if (s_command.length == 3) {
                     if (wordDB.contains(stemmer.stem(s_command[1]))) {
+                        stemmer.reset();
                         if (FileParser.isNumeric(s_command[2])) {
-                            HashMap<String, Double> topj = wordDB.TopJ(s_command[1], Integer.parseInt(s_command[2]), new CosineSimilarity());
+                            ArrayList<Map.Entry<String, Double>> topj = wordDB.TopJ(stemmer.stem(s_command[1]), Integer.parseInt(s_command[2]), new CosineSimilarity());
                             System.out.println(topj);
                         } else {
                             System.out.println("The third argument must be an integer");
                         }
 
                     } else {
-                        System.out.println("Cannot compute TopJ similarity to" + s_command[1]);
+                        System.out.println("Cannot compute TopJ similarity to " + s_command[1]);
                     }
+                    stemmer.reset();
                 } else {
                     System.out.println("Incorrect Command Usage:");
                     printMenu();

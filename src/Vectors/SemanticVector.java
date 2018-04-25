@@ -52,15 +52,13 @@ public class SemanticVector implements GenericVector {
      *
      */
     private void updateMagnitude() {
-        // this is standard n-dimensional vector magnitude
+        // this is standard n-dimensional vector magnitude without the square root
         this.magnitude = 0.0;
         for (Integer val : related_words.values()) {
             if (val != 0) {
                 this.magnitude += val * val;
             }
         }
-        this.magnitude = Math.sqrt(this.magnitude);
-
     }
 
     /**
@@ -80,6 +78,16 @@ public class SemanticVector implements GenericVector {
                     }
                 }
             }
+//            else {
+//                for (String word : sentence) {
+//                    if (!this.base_word.equals(word)) {
+//                        if (!related_words.containsKey(word)) {
+//                            related_words.put(word, 0);
+//                        }
+//                    }
+//                }
+//
+//            }
         }
         this.updateMagnitude();
     }
