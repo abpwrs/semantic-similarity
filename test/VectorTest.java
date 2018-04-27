@@ -3,7 +3,6 @@ import Vectors.SemanticVector;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
