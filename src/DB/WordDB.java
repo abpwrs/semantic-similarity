@@ -24,6 +24,10 @@ public class WordDB {
         }
     }
 
+    public boolean isEmpty() {
+        return words_as_vectors.isEmpty();
+    }
+
     /**
      *
      */
