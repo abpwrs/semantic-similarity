@@ -5,10 +5,17 @@ import Vectors.SemanticVector;
 
 import java.util.*;
 
+<<<<<<< HEAD
 /**
  * Possible Word DataBase Class
  */
 public class WordDB implements Database {
+=======
+public class WordDB {
+    //TODO: BEN: Modify to work with GenericVectors
+    //TODO: BEN: Issue 12?
+
+>>>>>>> origin/ben_backup
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
@@ -39,8 +46,12 @@ public class WordDB implements Database {
     /**
      * @param filename
      */
+<<<<<<< HEAD
     //TODO: Optimize Indexing and File Parsing
     @Override
+=======
+
+>>>>>>> origin/ben_backup
     public void index(String filename) {
         this.reset_updated_false();
         // for each word in the file data we need to updated the semantic vector of that class
@@ -58,7 +69,7 @@ public class WordDB implements Database {
                             this.words_as_vectors.get(word).update(parseResult);
                             this.updated.put(word, true);
                         } else {
-                            // Case where a new vector needsi  to be created
+                            // Case where a new vector needs to be created
                             SemanticVector semanticVector = new SemanticVector(word, parseResult);
                             this.words_as_vectors.put(word, semanticVector);
                             this.updated.put(word, true);
@@ -108,7 +119,7 @@ public class WordDB implements Database {
     /**
      * @param word    The word we want to find words similar to
      * @param J       The number of similar words to return
-     * @param simFunc A simlilarity function to base the vector relations off of
+     * @param simFunc A similarity function to base the vector relations off of
      * @return
      */
     public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {

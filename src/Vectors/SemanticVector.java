@@ -11,7 +11,7 @@ public class SemanticVector implements GenericVector {
     private HashMap<String, Integer> related_words;
 
     //Methods
-
+    //TODO: BEN: Make a bad vector
     /**
      * @param main_word
      * @param dataset
@@ -29,7 +29,6 @@ public class SemanticVector implements GenericVector {
     @Override
     public double getMagnitude() {
         return this.magnitude;
-
     }
 
     public boolean isEmpty() {
