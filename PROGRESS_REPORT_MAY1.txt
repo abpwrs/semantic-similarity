@@ -1,10 +1,15 @@
 What is the status of your project?
-
+We are currently finished with all of parts 1 through 3, with a draft of 4 written in our word document.
+We'll make sure to convert that to a PDF when it's done.
 
 
 What has each team member done to ensure the success of the team?
-
+The two of us have been communicating well across the project, and are making sure to leave detailed commit comments,
+as well as keeping our code well documented. We've also met in person multiple times to work together.
 
 
 What can each team member do going forward to ensure the success of the team?
-//TODO: BEN: Complete this.
+We're working on different aspects of the project simultaneously in order to stay productive, and make sure we meet
+our deadlines on time.
+
+//TODO: BEN: This is enough right?

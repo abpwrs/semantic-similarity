@@ -15,7 +15,7 @@ import java.util.Map;
 public class Main {
 
     private static void printMenu() {
-        //TODO: BEN: Add new commands to help
+        //TODO: May_1: BEN: Add new commands to help
         System.out.println("Supported commands:");
         System.out.println("help - Print the supported commands");
         System.out.println("quit - Quit this program");
@@ -31,7 +31,6 @@ public class Main {
         //TODO: BEN: Issue 10, Implementing the measure command
         //TODO: BEN: Looking into cluster class.
         //TODO: BEN: Test data, look for issue 16 bug.
-        //TODO: BEN: Check on the full write up requirements.
 
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////

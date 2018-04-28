@@ -31,6 +31,10 @@ public class SemanticVector implements GenericVector {
         return this.magnitude;
     }
 
+    /**
+     * @return
+     */
+    @Override
     public boolean isEmpty() {
         return related_words.isEmpty();
     }
@@ -94,6 +98,4 @@ public class SemanticVector implements GenericVector {
         }
         this.updateMagnitude();
     }
-
-
 }

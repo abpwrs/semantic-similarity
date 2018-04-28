@@ -14,6 +14,6 @@ public interface GenericVector {
 
     void update(ArrayList<HashSet<String>> dataset);
 
-    public boolean isEmpty();
+    boolean isEmpty();
 
 }

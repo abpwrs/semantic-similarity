@@ -48,6 +48,9 @@ public class WordDB {
         // small null pointer exception to catch if file not found
         if (parseResult != null) {
             long start = System.currentTimeMillis();
+            //?? TODO: May_1
+            // Why is it faster to do this out here? We should write about why for the last question of part 4.
+            //      adding the sentences here cut 20 seconds off the index time for war and peace. 82.341 --> 62.33
             this.all_sentences.addAll(parseResult);
             for (HashSet<String> sentence : parseResult) {
                 for (String word : sentence) {
@@ -112,6 +115,7 @@ public class WordDB {
      */
     public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {
         SemanticVector base_word = words_as_vectors.get(word);
+        //TODO: May_1 part 3, why we didn't use ArrayList
         ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
         HashMap<String, Double> relation = new HashMap<>();
         for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
