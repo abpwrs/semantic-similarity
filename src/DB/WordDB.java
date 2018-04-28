@@ -5,12 +5,9 @@ import Vectors.SemanticVector;
 
 import java.util.*;
 
-/**
- * Possible Word DataBase Class
- */
 public class WordDB {
-    // TODO: pick one of these two data types
-    // TODO: BEN: What types.
+    //TODO: BEN: Modify to work with GenericVectors
+    //TODO: BEN: Issue 12?
 
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
@@ -42,8 +39,7 @@ public class WordDB {
     /**
      * @param filename
      */
-    //TODO: Optimize Indexing and File Parsing
-    //TODO: BEN: After looking at it for a while, I can't think of any obvious flaws. What's wrong with it?
+
     public void index(String filename) {
         this.reset_updated_false();
         // for each word in the file data we need to updated the semantic vector of that class

@@ -15,7 +15,7 @@ import java.util.Map;
 public class Main {
 
     private static void printMenu() {
-        //TODO: Add new commands to help
+        //TODO: BEN: Add new commands to help ... ?
         System.out.println("Supported commands:");
         System.out.println("help - Print the supported commands");
         System.out.println("quit - Quit this program");
@@ -26,10 +26,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-        //TODO: this Data structure should have a Class as a wrapper around it
-        //TODO: BEN: This can be removed now because you made wordDB right?
         WordDB wordDB = new WordDB();
         PorterStemmer stemmer = new PorterStemmer();
+        //TODO: BEN: Issue 10, Implementing the measure command
+        //TODO: BEN: Looking into cluster class.
+        //TODO: BEN: Test data, look for issue 16 bug.
+        
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
         //ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");

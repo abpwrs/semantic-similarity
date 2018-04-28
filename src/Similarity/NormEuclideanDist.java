@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NormEuclideanDist implements SimilarityFunction {
+    //TODO: BEN: Make this
+
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         return 0;
