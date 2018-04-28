@@ -8,8 +8,7 @@ import java.util.*;
 /**
  * Possible Word DataBase Class
  */
-public class WordDB {
-    // TODO: pick one of these two data types
+public class WordDB implements Database {
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
@@ -37,6 +36,7 @@ public class WordDB {
      * @param filename
      */
     //TODO: Optimize Indexing and File Parsing
+    @Override
     public void index(String filename) {
         this.reset_updated_false();
         // for each word in the file data we need to updated the semantic vector of that class
