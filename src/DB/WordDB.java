@@ -23,6 +23,10 @@ public class WordDB implements Database {
         }
     }
 
+    public boolean isEmpty() {
+        return words_as_vectors.isEmpty();
+    }
+
     /**
      *
      */

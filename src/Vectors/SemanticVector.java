@@ -32,6 +32,10 @@ public class SemanticVector implements GenericVector {
 
     }
 
+    public boolean isEmpty() {
+        return related_words.isEmpty();
+    }
+
     /**
      * @return
      */
