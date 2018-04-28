@@ -15,13 +15,13 @@ import java.util.Map;
 public class Main {
 
     private static void printMenu() {
-        //TODO: BEN: Add new commands to help ... ?
+        //TODO: BEN: Add new commands to help
         System.out.println("Supported commands:");
         System.out.println("help - Print the supported commands");
         System.out.println("quit - Quit this program");
-        System.out.println("index - indexes a file (second argument) to be used as a semantic vector");
-        System.out.println("sentences - prints the sentences");
-        System.out.println("num - prints the number of sentences or vectors depending on the second arg");
+        System.out.println("index FILE - Read in and index  the file given by FILE");
+        System.out.println("sentences - Prints the currently stored sentences");
+        System.out.println("num TYPE - Prints the number of TYPE data. Ex: num sentence or num vector");
     }
 
     public static void main(String[] args) throws IOException {
@@ -31,7 +31,8 @@ public class Main {
         //TODO: BEN: Issue 10, Implementing the measure command
         //TODO: BEN: Looking into cluster class.
         //TODO: BEN: Test data, look for issue 16 bug.
-        
+        //TODO: BEN: Check on the full write up requirements.
+
         // Testing FileParser (can be commented out for submission)
         ///////////////////////////////////////////////////////////
         //ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
@@ -51,16 +52,9 @@ public class Main {
         while (true) {
             System.out.print("> ");
             String command = input.readLine();
-            // generalize command to work for any case (Upper/Lower)
             command = command.toLowerCase();
             String[] s_command = command.split(" ");
 
-            /*//print given input after split for testing
-            System.out.println("s_command:");
-            for (String ele : s_command){
-                System.out.println(ele);
-            }
-            System.out.print("\n");*/
             if (s_command[0].equals("help") || s_command[0].equals("h")) {
                 printMenu();
 
@@ -99,6 +93,7 @@ public class Main {
                 }
 
             } else if (s_command[0].equals("topj")) {
+                //TODO: BEN: End of part 3 terminal example. topj cat 6 "not enough?" why does example have "ten = 0.0"
                 if (s_command.length == 3) {
                     if (wordDB.contains(stemmer.stem(s_command[1]))) {
                         stemmer.reset();
