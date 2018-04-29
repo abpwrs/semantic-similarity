@@ -3,7 +3,10 @@ package DB;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -19,7 +22,7 @@ public class WordDB implements Database {
     // GenericVector and then we just need to make sure we have all of the methods we need
     private HashMap<String, SemanticVector> words_as_vectors;
     HashMap<String, Boolean> updated = new HashMap<>();
-    private ArrayList<HashSet<String>> all_sentences;
+    private ArrayList<ArrayList<String>> all_sentences;
     private boolean DB_exists;
 
     private void reset_updated_false() {
@@ -50,12 +53,12 @@ public class WordDB implements Database {
         this.reset_updated_false();
         // for each word in the file data we need to updated the semantic vector of that class
         System.out.println("Indexing " + filename);
-        ArrayList<HashSet<String>> parseResult = FileParser.parse(filename);
+        ArrayList<ArrayList<String>> parseResult = FileParser.parse(filename);
         // small null pointer exception to catch if file not found
         if (parseResult != null) {
             long start = System.currentTimeMillis();
             this.all_sentences.addAll(parseResult);
-            for (HashSet<String> sentence : parseResult) {
+            for (ArrayList<String> sentence : parseResult) {
                 for (String word : sentence) {
                     if (!updated.containsKey(word) || !updated.get(word)) {
                         if (this.words_as_vectors.containsKey(word)) {
@@ -87,7 +90,7 @@ public class WordDB implements Database {
     /**
      * @return
      */
-    public ArrayList<HashSet<String>> getAllSentences() {
+    public ArrayList<ArrayList<String>> getAllSentences() {
         return this.all_sentences;
     }
 

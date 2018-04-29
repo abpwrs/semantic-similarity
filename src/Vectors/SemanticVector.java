@@ -1,8 +1,8 @@
 package Vectors;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class SemanticVector implements GenericVector {
     // Attributes
@@ -12,11 +12,12 @@ public class SemanticVector implements GenericVector {
 
     //Methods
     //TODO: BEN: Make a bad vector
+
     /**
      * @param main_word
      * @param dataset
      */
-    public SemanticVector(String main_word, ArrayList<HashSet<String>> dataset) {
+    public SemanticVector(String main_word, ArrayList<ArrayList<String>> dataset) {
         this.base_word = main_word;
         this.related_words = new HashMap<>();
         this.update(dataset);
@@ -68,8 +69,9 @@ public class SemanticVector implements GenericVector {
      * @param dataset
      */
     @Override
-    public void update(ArrayList<HashSet<String>> dataset) {
-        for (HashSet<String> sentence : dataset) {
+    public void update(ArrayList<ArrayList<String>> dataset) {
+        // TODO: ALEX: Fix this to account for a word occurring multiple times in a sentence. -DONE
+        for (ArrayList<String> sentence : dataset) {
             if (sentence.contains(this.base_word)) {
                 for (String word : sentence) {
                     if (!this.base_word.equals(word)) {
@@ -81,19 +83,8 @@ public class SemanticVector implements GenericVector {
                     }
                 }
             }
-//            else {
-//                for (String word : sentence) {
-//                    if (!this.base_word.equals(word)) {
-//                        if (!related_words.containsKey(word)) {
-//                            related_words.put(word, 0);
-//                        }
-//                    }
-//                }
-//
-//            }
         }
         this.updateMagnitude();
     }
-
 
 }

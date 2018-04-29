@@ -2,7 +2,6 @@ package Vectors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public interface GenericVector {
     //TODO: Figure out what functions could be added to this interface
@@ -12,7 +11,7 @@ public interface GenericVector {
 
     String getWord();
 
-    void update(ArrayList<HashSet<String>> dataset);
+    void update(ArrayList<ArrayList<String>> dataset);
 
     public boolean isEmpty();
 
