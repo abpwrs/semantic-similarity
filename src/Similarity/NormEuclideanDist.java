@@ -2,11 +2,7 @@ package Similarity;
 
 import Vectors.SemanticVector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-public class NormEuclideanDist implements SimilarityFunction {
+public class NormEuclideanDist extends SimilarityFunction {
     //TODO: BEN: Make this
 
     @Override
@@ -19,8 +15,4 @@ public class NormEuclideanDist implements SimilarityFunction {
         return "Negative Euclidean Distance Between Normalized Vectors";
     }
 
-    @Override
-    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
-        return null;
-    }
 }

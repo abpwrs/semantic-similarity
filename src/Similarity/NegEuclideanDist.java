@@ -2,9 +2,9 @@ package Similarity;
 
 import Vectors.SemanticVector;
 
-import java.util.*;
+import java.util.Map;
 
-public class NegEuclideanDist implements SimilarityFunction {
+public class NegEuclideanDist extends SimilarityFunction {
     //TODO: BEN: Write JUnit tests.
 
     @Override
@@ -21,7 +21,7 @@ public class NegEuclideanDist implements SimilarityFunction {
                 }
             }
         }
-        return Math.sqrt(sum);
+        return -1 * Math.sqrt(sum);
     }
 
     @Override
@@ -29,21 +29,5 @@ public class NegEuclideanDist implements SimilarityFunction {
         return "Negative Euclidean Distance Between Vectors";
     }
 
-    @Override
-    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
-        //?? TODO: BEN: Isn't getmax simFunction independent? Calculated the same for any simFunc right?
-        ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
-        boolean sentinel = true;
-        for (int i = 0; i < J && sentinel; i++) {
-            try {
-                String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
-                ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
-                relation.remove(max);
-            } catch (NoSuchElementException e) {
-                System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
-                sentinel = false;
-            }
-        }
-        return ret;
-    }
+
 }

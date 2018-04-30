@@ -2,17 +2,29 @@ package Similarity;
 
 import Vectors.SemanticVector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public interface SimilarityFunction {
+public abstract class SimilarityFunction {
     //TODO: Figure out what functions could be added to this interface
-    double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector);
+    abstract public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector);
 
-    String getMethodName();
+    abstract public String getMethodName();
 
-    ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J);
+    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
+        ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
+        boolean sentinel = true;
+        for (int i = 0; i < J && sentinel; i++) {
+            try {
+                String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
+                ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
+                relation.remove(max);
+            } catch (NoSuchElementException e) {
+                System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
+                sentinel = false;
+            }
+        }
+        return ret;
+    }
     //?? TODO: BEN: Why does getmax need to be a method of the simFunctions? Shouldn't that just be part of the WordDB?
 
 }

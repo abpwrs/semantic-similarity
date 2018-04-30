@@ -2,9 +2,9 @@ package Similarity;
 
 import Vectors.SemanticVector;
 
-import java.util.*;
+import java.util.Map;
 
-public class CosineSimilarity implements SimilarityFunction {
+public class CosineSimilarity extends SimilarityFunction {
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         Double sum = 0.0;
@@ -24,22 +24,5 @@ public class CosineSimilarity implements SimilarityFunction {
     @Override
     public String getMethodName() {
         return "Cosine Similarity";
-    }
-
-    @Override
-    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
-        ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
-        boolean sentinel = true;
-        for (int i = 0; i < J && sentinel; i++) {
-            try {
-                String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
-                ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
-                relation.remove(max);
-            } catch (NoSuchElementException e) {
-                System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
-                sentinel = false;
-            }
-        }
-        return ret;
     }
 }
