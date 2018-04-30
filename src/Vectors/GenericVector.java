@@ -13,6 +13,6 @@ public interface GenericVector {
 
     void update(ArrayList<ArrayList<String>> dataset);
 
-    public boolean isEmpty();
+    boolean isEmpty();
 
 }

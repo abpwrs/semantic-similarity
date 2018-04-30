@@ -13,4 +13,6 @@ public interface SimilarityFunction {
     String getMethodName();
 
     ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J);
+    //?? TODO: BEN: Why does getmax need to be a method of the simFunctions? Shouldn't that just be part of the WordDB?
+
 }
