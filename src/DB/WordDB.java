@@ -6,7 +6,7 @@ import Vectors.SemanticVector;
 import java.util.*;
 
 public class WordDB {
-    //TODO: BEN: Modify to work with GenericVectors
+    //TODO: BEN: Modify to work with GenericVectors... why? it only needs semantic vector.
     //TODO: BEN: Issue 12?
 
     // Each word has a vector containing it's relation to every other word
