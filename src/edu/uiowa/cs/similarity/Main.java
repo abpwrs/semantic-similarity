@@ -92,7 +92,6 @@ public class Main {
                 }
 
             } else if (s_command[0].equals("topj")) {
-                //TODO: BEN: End of part 3 terminal example. topj cat 6 "not enough?" why does example have "ten = 0.0"
                 if (s_command.length == 3) {
                     if (wordDB.contains(stemmer.stem(s_command[1]))) {
                         stemmer.reset();

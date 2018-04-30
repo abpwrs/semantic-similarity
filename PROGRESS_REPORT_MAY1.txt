@@ -13,3 +13,5 @@ We're working on different aspects of the project simultaneously in order to sta
 our deadlines on time.
 
 //TODO: BEN: This is enough right?
+//TODO: BEN: Also review the little "java" blocks in the Project Guide. Almost missed some things in there.
+    // Actually it doesn't matter for submission though until the very end.
