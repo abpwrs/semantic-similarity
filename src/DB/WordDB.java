@@ -3,10 +3,7 @@ package DB;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -143,6 +140,19 @@ public class WordDB implements Database {
                 relation.put(elem.getKey(), simFunc.calculateSimilarity(base_word, elem.getValue()));
             }
         }
-        return simFunc.getMostRelated(relation, J);
+
+        // at this point most_related contains all of the elements that are actually  related
+        ArrayList<Map.Entry<String, Double>> most_related = simFunc.getMostRelated(relation, J);
+
+        // this fills in the rest of the values with unrelated values if not enough words are actually related
+        for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
+            if (most_related.size() >= J) {
+                break;
+            } else if (!relation.containsKey(elem.getKey())) {
+                relation.put(elem.getKey(), simFunc.getUnrelatedValue());
+                most_related.add(new AbstractMap.SimpleEntry<>(elem.getKey(), simFunc.calculateSimilarity(base_word, words_as_vectors.get(elem.getKey()))));
+            }
+        }
+        return most_related;
     }
 }

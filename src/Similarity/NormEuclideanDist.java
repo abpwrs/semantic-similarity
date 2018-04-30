@@ -15,4 +15,10 @@ public class NormEuclideanDist extends SimilarityFunction {
         return "Negative Euclidean Distance Between Normalized Vectors";
     }
 
+    @Override
+    public Double getUnrelatedValue() {
+        //TODO: ALEX: Figure out what the unrelated value is....
+        return null;
+    }
+
 }

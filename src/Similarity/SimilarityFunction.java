@@ -10,6 +10,8 @@ public abstract class SimilarityFunction {
 
     abstract public String getMethodName();
 
+    abstract public Double getUnrelatedValue();
+
     public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
         ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
         boolean sentinel = true;
@@ -19,8 +21,8 @@ public abstract class SimilarityFunction {
                 ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
                 relation.remove(max);
             } catch (NoSuchElementException e) {
-                //TODO: modify WordDB to return ccompletly unrelated values so that we can delete this line
-                System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
+                // TODO: modify WordDB to return ccompletly unrelated values so that we can delete this line
+                // System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
                 sentinel = false;
             }
         }

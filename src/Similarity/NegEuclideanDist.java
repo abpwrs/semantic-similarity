@@ -29,5 +29,10 @@ public class NegEuclideanDist extends SimilarityFunction {
         return "Negative Euclidean Distance Between Vectors";
     }
 
+    @Override
+    public Double getUnrelatedValue() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
 
 }

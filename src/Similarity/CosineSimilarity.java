@@ -25,4 +25,9 @@ public class CosineSimilarity extends SimilarityFunction {
     public String getMethodName() {
         return "Cosine Similarity";
     }
+
+    @Override
+    public Double getUnrelatedValue() {
+        return 0.0;
+    }
 }
