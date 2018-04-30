@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface GenericVector {
-    //TODO: Figure out what functions could be added to this interface
+    //TODO: Figure out what functions could be added to this interface -- Done
     double getMagnitude(/* idk if this needs parameters*/);
 
     HashMap<String, Integer> getVector();

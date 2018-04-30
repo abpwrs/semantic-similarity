@@ -60,7 +60,7 @@ public class WordDB implements Database {
             for (ArrayList<String> sentence : parseResult) {
                 for (String word : sentence) {
 
-                    // THIS LINE IS WHY OUR CODE RUNS QUICKLY:
+                    // THIS LINE IS PART OF WHY OUR CODE RUNS QUICKLY:
                     // We only have to update each word once if we keep a boolean array of words
                     // This keeps us from double/triple/etc... counting.
                     // because this dataset is so sparse -- i.e. words are repetitive,

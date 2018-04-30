@@ -15,7 +15,7 @@ import java.util.Map;
 public class Main {
 
     private static void printMenu() {
-        //TODO: May_1: BEN: Add new commands to help
+        //TODO: May_1: BEN: Add new commands to help -- Done
         System.out.println("Supported commands:");
         System.out.println("\nhelp - Print the supported commands");
         System.out.println("\nquit - Quit this program");
@@ -32,21 +32,29 @@ public class Main {
         WordDB wordDB = new WordDB();
         PorterStemmer stemmer = new PorterStemmer();
         SimilarityFunction similarityFunction = new CosineSimilarity();
-        //TODO: BEN: Issue 10, Implementing the measure command
+        //TODO: BEN: Issue 10, Implementing the measure command -- Done
         //TODO: BEN: Looking into cluster class.
         //TODO: BEN: Test data, look for issue 16 bug.
         while (true) {
             System.out.print("> ");
+
+            // Read in and format arguments
             String command = input.readLine();
             command = command.toLowerCase();
             String[] s_command = command.split(" ");
 
+            // Help Command
+            //////////////////////////////////////////////////////////////////////////////
             if (s_command[0].equals("help") || s_command[0].equals("h")) {
                 printMenu();
 
+                // Quit Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("quit") || s_command[0].equals("q")) {
                 System.exit(0);
 
+                // Index Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("index") || s_command[0].equals("i")) {
                 if (s_command.length == 2) {
                     wordDB.index(s_command[1]);
@@ -55,15 +63,21 @@ public class Main {
                     printMenu();
                 }
 
+                // Print Sentences Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(wordDB.getAllSentences());
 
+                // Print Vectors Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("vectors") || s_command[0].equals("v")) {
                 for (SemanticVector vector : wordDB.getVectors()) {
                     System.out.println(vector.getWord());
                     System.out.println(vector.getVector());
                 }
 
+                // Print Quantities Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("num") || s_command[0].equals("n")) {
                 if (s_command.length == 2) {
                     if (s_command[1].equals("sentences") || s_command[1].equals("s")) {
@@ -78,6 +92,8 @@ public class Main {
                     printMenu();
                 }
 
+                // Top-J Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("topj")) {
                 if (s_command.length == 3) {
                     if (wordDB.contains(stemmer.stem(s_command[1]))) {
@@ -102,6 +118,9 @@ public class Main {
                     printMenu();
                 }
                 stemmer.reset();
+
+                // Change Similarity Function Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("measure")) {
                 if (s_command.length == 2) {
                     switch (s_command[1]) {
@@ -126,6 +145,8 @@ public class Main {
                     printMenu();
                 }
 
+                // Unknown Command
+                //////////////////////////////////////////////////////////////////////////
             } else {
                 System.err.println("Unrecognized command");
             }
