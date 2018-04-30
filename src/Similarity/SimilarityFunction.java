@@ -19,12 +19,14 @@ public abstract class SimilarityFunction {
                 ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
                 relation.remove(max);
             } catch (NoSuchElementException e) {
+                //TODO: modify WordDB to return ccompletly unrelated values so that we can delete this line
                 System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
                 sentinel = false;
             }
         }
         return ret;
     }
-    //?? TODO: BEN: Why does getmax need to be a method of the simFunctions? Shouldn't that just be part of the WordDB?
+    // TODO: BEN: Why does getmax need to be a method of the simFunctions? Shouldn't that just be part of the WordDB? - DONE
+    // TODO: ALEX: Edited this so that getMostRelated is part of this abstract class
 
 }

@@ -62,17 +62,26 @@ public class WordDB implements Database {
             this.all_sentences.addAll(parseResult);
             for (ArrayList<String> sentence : parseResult) {
                 for (String word : sentence) {
+
+                    // THIS LINE IS WHY OUR CODE RUNS QUICKLY:
+                    // We only have to update each word once if we keep a boolean array of words
+                    // This keeps us from double/triple/etc... counting.
+                    // because this dataset is so sparse -- i.e. words are repetitive,
+                    // this saves us a lot of unnecessary computation
+                    ////////////////////////////////////////////////////////
                     if (!updated.containsKey(word) || !updated.get(word)) {
+                        ////////////////////////////////////////////////////
+
                         if (this.words_as_vectors.containsKey(word)) {
                             // Case where the vector already exists, so it just needs to be updated
                             this.words_as_vectors.get(word).update(parseResult);
-                            this.updated.put(word, true);
                         } else {
                             // Case where a new vector needs to be created
                             SemanticVector semanticVector = new SemanticVector(word, parseResult);
                             this.words_as_vectors.put(word, semanticVector);
-                            this.updated.put(word, true);
                         }
+
+                        this.updated.put(word, true);
                     }
                 }
             }
@@ -122,9 +131,12 @@ public class WordDB implements Database {
      * @return
      */
     public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {
+        if (J > words_as_vectors.size() - 1) {
+            System.out.println("Error: not enough elements to compute TopJ");
+            return null;
+        }
         SemanticVector base_word = words_as_vectors.get(word);
         //TODO: May_1 part 3, why we didn't use ArrayList
-        ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
         HashMap<String, Double> relation = new HashMap<>();
         for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
             if (elem.getValue().getVector().containsKey(word)) {

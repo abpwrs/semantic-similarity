@@ -2,7 +2,7 @@ package edu.uiowa.cs.similarity;
 
 import DB.FileParser;
 import DB.WordDB;
-import Similarity.CosineSimilarity;
+import Similarity.*;
 import Vectors.SemanticVector;
 import opennlp.tools.stemmer.PorterStemmer;
 
@@ -17,37 +17,24 @@ public class Main {
     private static void printMenu() {
         //TODO: May_1: BEN: Add new commands to help
         System.out.println("Supported commands:");
-        System.out.println("help - Print the supported commands");
-        System.out.println("quit - Quit this program");
-        System.out.println("index FILE - Read in and index  the file given by FILE");
-        System.out.println("sentences - Prints the currently stored sentences");
-        System.out.println("num TYPE - Prints the number of TYPE data. Ex: num sentence or num vector");
+        System.out.println("\nhelp - Print the supported commands");
+        System.out.println("\nquit - Quit this program");
+        System.out.println("\nindex FILE - Read in and index  the file given by FILE");
+        System.out.println("\nsentences - Prints the currently stored sentences");
+        System.out.println("\nnum TYPE - Prints the number of TYPE data.");
+        System.out.println("TYPE options:\n\t(s)entences\n\t(v)ectors");
+        System.out.println("\nmeasure METHOD - Changes what similarity function is used.");
+        System.out.println("METHOD options:\n\tcosineSimilarity\n\tnegEuclideanDist\n\tnormNegEuclideanDist");
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         WordDB wordDB = new WordDB();
         PorterStemmer stemmer = new PorterStemmer();
+        SimilarityFunction similarityFunction = new CosineSimilarity();
         //TODO: BEN: Issue 10, Implementing the measure command
         //TODO: BEN: Looking into cluster class.
         //TODO: BEN: Test data, look for issue 16 bug.
-
-        // Testing FileParser (can be commented out for submission)
-        ///////////////////////////////////////////////////////////
-        //ArrayList<HashSet<String>> test = FileParser.parse("src/data/cleanup_test.txt");
-
-        ///////////////////////////////////////////////////////////
-        //
-        // Prototyping the conversion of HashSet<HashSet<String>> to HashMap<String,HashMap<String,Integer>>
-        // for each word in each sentence - this is a double for loop
-        //     iterate through each sentence - one for loop
-        //         check if sentence contains the word we are adding to the main map
-        //         iterate through words in sentence with goal_word - one for loop
-        //             update the main map
-        // O(n^4)
-        //index("src/data/easy_sanity_test.txt", allSentences, main_map);
-        //System.out.println(main_map + "\n");
-
         while (true) {
             System.out.print("> ");
             String command = input.readLine();
@@ -97,9 +84,9 @@ public class Main {
                         stemmer.reset();
                         if (FileParser.isNumeric(s_command[2])) {
                             long start = System.currentTimeMillis();
-                            ArrayList<Map.Entry<String, Double>> topj = wordDB.TopJ(stemmer.stem(s_command[1]), Integer.parseInt(s_command[2]), new CosineSimilarity());
+                            ArrayList<Map.Entry<String, Double>> topj = wordDB.TopJ(stemmer.stem(s_command[1]), Integer.parseInt(s_command[2]), similarityFunction);
                             long end = System.currentTimeMillis();
-                            System.out.println("Time taken to calculate TopJ " + ((float) (end - start) / 1000f) + " seconds");
+                            System.out.println("Time taken to calculate TopJ " + ((float) (end - start) / 1000f) + " seconds, using: " + similarityFunction.getMethodName());
 
                             System.out.println(topj);
                         } else {
@@ -115,6 +102,30 @@ public class Main {
                     printMenu();
                 }
                 stemmer.reset();
+            } else if (s_command[0].equals("measure")) {
+                if (s_command.length == 2) {
+                    switch (s_command[1]) {
+                        case "cosinesimilarity":
+                            similarityFunction = new CosineSimilarity();
+                            System.out.println("Similarity measure changed to " + similarityFunction.getMethodName());
+                            break;
+                        case "negeuclideandist":
+                            similarityFunction = new NegEuclideanDist();
+                            System.out.println("Similarity measure changed to " + similarityFunction.getMethodName());
+                            break;
+                        case "normnegeuclideandist":
+                            similarityFunction = new NormEuclideanDist();
+                            System.out.println("Similarity measure changed to " + similarityFunction.getMethodName());
+                            break;
+                        default:
+                            System.out.println("Invalid similarity method");
+                            printMenu();
+                    }
+                } else {
+                    System.out.println("Incorrect Command Usage:");
+                    printMenu();
+                }
+
             } else {
                 System.err.println("Unrecognized command");
             }
