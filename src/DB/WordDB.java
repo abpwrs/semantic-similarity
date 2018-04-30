@@ -47,7 +47,7 @@ public class WordDB implements Database {
     /**
      * @param filename
      */
-    //TODO: Optimize Indexing and File Parsing
+    //TODO: Optimize Indexing and File Parsing - Done
     @Override
     public void index(String filename) {
         this.reset_updated_false();
@@ -128,6 +128,6 @@ public class WordDB implements Database {
                 relation.put(elem.getKey(), simFunc.calculateSimilarity(base_word, elem.getValue()));
             }
         }
-        return simFunc.getmax(relation, J);
+        return simFunc.getMostRelated(relation, J);
     }
 }

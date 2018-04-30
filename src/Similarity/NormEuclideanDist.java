@@ -20,7 +20,7 @@ public class NormEuclideanDist implements SimilarityFunction {
     }
 
     @Override
-    public ArrayList<Map.Entry<String, Double>> getmax(HashMap<String, Double> relation, Integer J) {
+    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
         return null;
     }
 }

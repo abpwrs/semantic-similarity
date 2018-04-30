@@ -12,5 +12,5 @@ public interface SimilarityFunction {
 
     String getMethodName();
 
-    ArrayList<Map.Entry<String, Double>> getmax(HashMap<String, Double> relation, Integer J);
+    ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J);
 }

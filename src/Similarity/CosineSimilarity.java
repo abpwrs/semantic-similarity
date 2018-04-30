@@ -27,7 +27,7 @@ public class CosineSimilarity implements SimilarityFunction {
     }
 
     @Override
-    public ArrayList<Map.Entry<String, Double>> getmax(HashMap<String, Double> relation, Integer J) {
+    public ArrayList<Map.Entry<String, Double>> getMostRelated(HashMap<String, Double> relation, Integer J) {
         ArrayList<Map.Entry<String, Double>> ret = new ArrayList<>();
         boolean sentinel = true;
         for (int i = 0; i < J && sentinel; i++) {

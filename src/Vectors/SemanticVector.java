@@ -70,7 +70,7 @@ public class SemanticVector implements GenericVector {
      */
     @Override
     public void update(ArrayList<ArrayList<String>> dataset) {
-        // TODO: ALEX: Fix this to account for a word occurring multiple times in a sentence. -DONE
+        // TODO: ALEX: Fix this to account for a word occurring multiple times in a sentence. - DONE
         for (ArrayList<String> sentence : dataset) {
             if (sentence.contains(this.base_word)) {
                 for (String word : sentence) {
