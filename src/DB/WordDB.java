@@ -144,7 +144,7 @@ public class WordDB implements Database {
 
         // this fills in the rest of the values with unrelated values if not enough words are actually related
         for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
-            if (most_related.size() >= J) {
+                if (most_related.size() >= J) {
                 break;
             } else if (!relation.containsKey(elem.getKey())) {
                 relation.put(elem.getKey(), simFunc.getUnrelatedValue());
