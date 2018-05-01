@@ -11,7 +11,7 @@ public class SemanticVector implements GenericVector {
     private HashMap<String, Integer> related_words;
 
     //Methods
-    //TODO: BEN: Make a bad vector
+    //TODO: BEN: Bad vector for writing.
 
     /**
      * @param main_word
@@ -67,6 +67,10 @@ public class SemanticVector implements GenericVector {
                 this.magnitude += val * val;
             }
         }
+    }
+
+    public void print(){
+        System.out.println("("+base_word+":"+magnitude.toString()+")"+":"+related_words.toString());
     }
 
     /**

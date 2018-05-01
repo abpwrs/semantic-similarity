@@ -15,7 +15,7 @@ public class NegEuclideanDist extends SimilarityFunction {
         }
         for (Map.Entry<String, Integer> entry : main_vector.getVector().entrySet()) {
             if (entry.getValue() != 0) {
-                if (comp_vector.getVector().containsKey(entry.getKey())) {
+                if (comp_vector.getVector().containsKey(entry.getKey()) && comp_vector.getVector().get(entry.getKey()) != 0) {
                     sum += (entry.getValue() - comp_vector.getVector().get(entry.getKey())) *
                             (entry.getValue() - comp_vector.getVector().get(entry.getKey()));
                 }
@@ -26,13 +26,14 @@ public class NegEuclideanDist extends SimilarityFunction {
 
     @Override
     public String getMethodName() {
-        return "Negative Euclidean Distance Between Vectors";
+        return "negative euclidean distance";
     }
 
     @Override
     public Double getUnrelatedValue() {
         return Double.NEGATIVE_INFINITY;
     }
+
 
 
 }

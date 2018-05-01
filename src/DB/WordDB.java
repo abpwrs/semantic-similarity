@@ -10,8 +10,7 @@ import java.util.*;
  * Possible Word DataBase Class
  */
 public class WordDB implements Database {
-    //TODO: BEN: Modify to work with GenericVectors... why? it only needs semantic vector.
-    //TODO: BEN: Issue 12?
+    //TODO: BEN: Issue 12? Extra?
 
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
@@ -43,7 +42,6 @@ public class WordDB implements Database {
     /**
      * @param filename
      */
-    //TODO: Optimize Indexing and File Parsing - Done
     @Override
     public void index(String filename) {
         this.reset_updated_false();
