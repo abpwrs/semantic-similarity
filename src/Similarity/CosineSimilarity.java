@@ -8,6 +8,7 @@ public class CosineSimilarity extends SimilarityFunction {
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         Double sum = 0.0;
+
         if (main_vector.getMagnitude() == 0 || comp_vector.getMagnitude() == 0) {
             return sum;
         }
@@ -23,6 +24,6 @@ public class CosineSimilarity extends SimilarityFunction {
 
     @Override
     public String getMethodName() {
-        return "Cosine Similarity";
+        return "cosine similarity";
     }
 }

@@ -3,6 +3,9 @@ package edu.uiowa.cs.similarity;
 import DB.FileParser;
 import DB.WordDB;
 import Similarity.CosineSimilarity;
+import Similarity.NegEuclideanDist;
+import Similarity.NormEuclideanDist;
+import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
 import opennlp.tools.stemmer.PorterStemmer;
 
@@ -15,20 +18,23 @@ import java.util.Map;
 public class Main {
 
     private static void printMenu() {
-        //TODO: May_1: BEN: Add new commands to help
         System.out.println("Supported commands:");
         System.out.println("help - Print the supported commands");
         System.out.println("quit - Quit this program");
         System.out.println("index FILE - Read in and index  the file given by FILE");
         System.out.println("sentences - Prints the currently stored sentences");
+        System.out.println("vectors - Prints the currently stored vectors");
         System.out.println("num TYPE - Prints the number of TYPE data. Ex: num sentence or num vector");
+        System.out.println("topj WORD COUNT - Calculates the top COUNT(int) related vectors to WORD(string)." +
+                "\n                  Uses cosine by default, see \"measure\" command to change.");
+        System.out.println("measure FUNCTION - Options include \"cosine\", \"euc\", or \"eucnorm\".");
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         WordDB wordDB = new WordDB();
         PorterStemmer stemmer = new PorterStemmer();
-        //TODO: BEN: Issue 10, Implementing the measure command
+        SimilarityFunction choosenFunc = new CosineSimilarity();
         //TODO: BEN: Looking into cluster class.
         //TODO: BEN: Test data, look for issue 16 bug.
 
@@ -115,7 +121,23 @@ public class Main {
                     printMenu();
                 }
                 stemmer.reset();
-            } else {
+            }  else if (s_command[0].equals("measure") || s_command[0].equals("m")) {
+                if (s_command[1].equals("cosine")){
+                    choosenFunc = new CosineSimilarity();
+                }
+                else if (s_command[1].equals("euc")){
+                    choosenFunc = new NegEuclideanDist();
+                }
+                else if (s_command[1].equals("eucnorm")){
+                    choosenFunc = new NormEuclideanDist();
+                }
+                else{
+                    System.out.println(s_command[1] + " is not a valid function type. See help for more details.");
+                }
+                System.out.println("Similarity measure is" + choosenFunc.getMethodName());
+            }
+
+            else {
                 System.err.println("Unrecognized command");
             }
         }

@@ -12,6 +12,3 @@ What can each team member do going forward to ensure the success of the team?
 We're working on different aspects of the project simultaneously in order to stay productive, and make sure we meet
 our deadlines on time.
 
-//TODO: BEN: This is enough right?
-//TODO: BEN: Also review the little "java" blocks in the Project Guide. Almost missed some things in there.
-    // Actually it doesn't matter for submission though until the very end.

@@ -11,7 +11,7 @@ public class SemanticVector implements GenericVector {
     private HashMap<String, Integer> related_words;
 
     //Methods
-    //TODO: BEN: Make a bad vector
+    //TODO: BEN: Bad vector for writing.
 
     /**
      * @param main_word
@@ -69,12 +69,15 @@ public class SemanticVector implements GenericVector {
         }
     }
 
+    public void print(){
+        System.out.println("("+base_word+":"+magnitude.toString()+")"+":"+related_words.toString());
+    }
+
     /**
      * @param dataset
      */
     @Override
     public void update(ArrayList<ArrayList<String>> dataset) {
-        // TODO: ALEX: Fix this to account for a word occurring multiple times in a sentence. - DONE
         for (ArrayList<String> sentence : dataset) {
             if (sentence.contains(this.base_word)) {
                 for (String word : sentence) {
