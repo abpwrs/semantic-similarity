@@ -107,12 +107,13 @@ public class SemanticVector implements GenericVector {
                 related_words.put(word.getKey(), word.getValue());
             }
         }
+        this.updateMagnitude();
     }
 
     public void normalizeBy(Integer value) {
         for (Map.Entry<String, Double> temp : related_words.entrySet()) {
             related_words.put(temp.getKey(), temp.getValue() / (double) value);
-
         }
+        this.updateMagnitude();
     }
 }

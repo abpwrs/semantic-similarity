@@ -65,7 +65,7 @@ public class FileParser {
             // get rid of caps
             words = words.toLowerCase();
             // get rid of in sentence punctuation
-            words = words.replaceAll("\\(|\\)|,|, |--|:|;|\"|'|' ", "");
+            words = words.replaceAll("\\(|\\)|,|, |--|:|;|\"|'|' |\\*", "");
             // split into sentences
             String[] sentences = words.split("[!?.]");
             for (String sentence : sentences) {

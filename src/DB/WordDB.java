@@ -112,7 +112,7 @@ public class WordDB implements Database {
     }
 
     public boolean contains(String check) {
-        return words_as_vectors.containsKey(check);
+        return this.words_as_vectors.containsKey(check);
     }
 
     /**
@@ -129,14 +129,14 @@ public class WordDB implements Database {
      * @return
      */
     public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {
-        if (J > words_as_vectors.size() - 1) {
+        if (J > this.words_as_vectors.size() - 1) {
             System.out.println("Error: not enough elements to compute TopJ");
             return null;
         }
-        SemanticVector base_word = words_as_vectors.get(word);
+        SemanticVector base_word = this.words_as_vectors.get(word);
         //TODO: May_1 part 3, why we didn't use ArrayList
         HashMap<String, Double> relation = new HashMap<>();
-        for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
+        for (Map.Entry<String, SemanticVector> elem : this.words_as_vectors.entrySet()) {
             if (elem.getValue().getVector().containsKey(word)) {
                 relation.put(elem.getKey(), simFunc.calculateSimilarity(base_word, elem.getValue()));
             }
@@ -146,7 +146,7 @@ public class WordDB implements Database {
         ArrayList<Map.Entry<String, Double>> most_related = simFunc.getMostRelated(relation, J);
 
         // this fills in the rest of the values with unrelated values if not enough words are actually related
-        for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
+        for (Map.Entry<String, SemanticVector> elem : this.words_as_vectors.entrySet()) {
             if (most_related.size() >= J) {
                 break;
             } else if (!relation.containsKey(elem.getKey())) {
@@ -158,45 +158,58 @@ public class WordDB implements Database {
         return most_related;
     }
 
-    //TODO: input validation
+    //TODO: input validation in Main
+    //TODO: Figure out why everything is added to one cluster
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
-        HashMap<String, Double> magnitudes = new HashMap<>();
 
-        for (SemanticVector temp : words_as_vectors.values()) {
-            magnitudes.put(temp.getWord(), temp.getMagnitude());
-        }
+        // No longer need a magnitudes HashMap
+//        HashMap<String, Double> magnitudes = new HashMap<>();
+//
+//        for (SemanticVector temp : words_as_vectors.values()) {
+//            magnitudes.put(temp.getWord(), temp.getMagnitude());
+//        }
 
         SimilarityFunction neg_euc = new NegEuclideanDist();
 
         SemanticVector means[] = new SemanticVector[k];
 
-        for (int i = 0; i < k; i++) {
-            String max = Collections.max(magnitudes.entrySet(), Map.Entry.comparingByValue()).getKey();
-            means[i] = words_as_vectors.get(max);
-            magnitudes.remove(max);
+        // attempt that selected initial values based on which vectors had the greatest magnitudes
+//        for (int i = 0; i < k; i++) {
+//            String max = Collections.max(magnitudes.entrySet(), Map.Entry.comparingByValue()).getKey();
+//            means[i] = words_as_vectors.get(max);
+//            magnitudes.remove(max);
+//
+//        }
 
+
+        // sample without replacement for means initial values
+        for (int i = 0; i < k; i++) {
+            means[i] = this.sampleWithoutReplacement();
         }
 
-        HashMap<Integer, LinkedList<SemanticVector>> clusters = new HashMap<>(k);
+        HashMap<Integer, LinkedList<SemanticVector>> clusters = new HashMap<>();
 
         // K-means calculation
         for (int i = 0; i < iters; ++i) {
-            clusters = new HashMap<>(k);
+            clusters = new HashMap<>();
 
             for (int j = 0; j < k; j++) {
-                clusters.put(i, new LinkedList<>());
+                //LinkedList<SemanticVector> temp = new LinkedList<>();
+                //temp.add(means[j]);
+                //clusters.put(j, temp);
+                clusters.put(j, new LinkedList<>());
             }
 
-            for (Map.Entry<String, SemanticVector> p : words_as_vectors.entrySet()) {
+            for (Map.Entry<String, SemanticVector> p : this.words_as_vectors.entrySet()) {
                 // assign to clusters
                 int min_means_index = 0;
                 Double min_relation = Double.NEGATIVE_INFINITY;
 
                 for (int j = 0; j < k; j++) {
-                    Double temp = neg_euc.calculateSimilarity(p.getValue(), means[i]);
+                    Double temp = neg_euc.calculateSimilarity(p.getValue(), means[j]);
                     if (temp > min_relation) {
                         min_relation = temp;
-                        min_means_index = i;
+                        min_means_index = j;
                     }
                 }
 
@@ -204,12 +217,14 @@ public class WordDB implements Database {
                 temp.add(p.getValue());
                 clusters.put(min_means_index, temp);
             }
-            //TODO EFFICIENCY
+            //TODO: Alex: EFFICIENCY
             for (int j = 0; j < k; j++) {
                 // adjust means
-                means[i] = this.calculate_centroid(clusters.get(i));
+                means[j] = this.calculate_centroid(clusters.get(j));
 
             }
+
+            // remove the mean from the vector
 
         }
 
@@ -226,14 +241,21 @@ public class WordDB implements Database {
 //                word_cost += similarityFunction.calculateSimilarity(main, sub);
 //            }
 //        }
-        // TODO: implement the addition of vectors
-        //
         SemanticVector center = new SemanticVector();
         for (SemanticVector val : cluster) {
             center.update(val);
         }
         center.normalizeBy(cluster.size());
         return center;
+    }
+
+    private SemanticVector sampleWithoutReplacement() {
+        Random generator = new Random();
+        Object[] keys = this.words_as_vectors.keySet().toArray();
+        Object randomKey = keys[generator.nextInt(keys.length)];
+        String key = (String) randomKey;
+        return this.words_as_vectors.get(key);
+
     }
 
 

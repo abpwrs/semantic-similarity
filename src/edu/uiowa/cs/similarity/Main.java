@@ -146,7 +146,10 @@ public class Main {
                 System.out.println(temp.entrySet().size());
                 for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {
                     System.out.println("Cluster: " + entry.getKey());
-                    System.out.println(entry.getValue());
+                    for (SemanticVector vector : entry.getValue()) {
+                        System.out.print(vector.getWord() + ", ");
+                    }
+                    System.out.println();
                 }
             } else {
                 System.err.println("Unrecognized command");
