@@ -7,7 +7,7 @@ public interface GenericVector {
 
     double getMagnitude(/* idk if this needs parameters*/);
 
-    HashMap<String, Integer> getVector();
+    HashMap<String, Double> getVector();
 
     String getWord();
 

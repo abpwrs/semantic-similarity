@@ -25,9 +25,9 @@ public class VectorTest {
     public void negEucDist(){
         //Calling top j for top 2 on "project" vectorArray[3].getWord() with negEuc function
         WordDB testDB = new WordDB();
-        testDB.index("src/data/negEuc_test.txt");
+        testDB.index("src/data/easy_sanity_test.txt");
 
-        SemanticVector[] vectorArray = new SemanticVector[20];
+        SemanticVector[] vectorArray = new SemanticVector[100];
         int i = 0;
         for (SemanticVector vector : testDB.getVectors()) {
             vectorArray[i] = vector;

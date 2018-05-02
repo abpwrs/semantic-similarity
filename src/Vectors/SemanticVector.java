@@ -3,12 +3,13 @@ package Vectors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SemanticVector implements GenericVector {
     // Attributes
     private String base_word;
     private Double magnitude;
-    private HashMap<String, Integer> related_words;
+    private HashMap<String, Double> related_words;
 
     //Methods
     //TODO: BEN: Bad vector for writing.
@@ -19,9 +20,13 @@ public class SemanticVector implements GenericVector {
      */
     public SemanticVector(String main_word, ArrayList<ArrayList<String>> dataset) {
         this.base_word = main_word;
-        this.related_words = new HashMap<>();
+        this.related_words = new HashMap<String, Double>();
         this.update(dataset);
         this.updateMagnitude();
+    }
+
+    public SemanticVector() {
+        related_words = new HashMap<String, Double>();
     }
 
     /**
@@ -44,7 +49,7 @@ public class SemanticVector implements GenericVector {
      * @return
      */
     @Override
-    public HashMap<String, Integer> getVector() {
+    public HashMap<String, Double> getVector() {
         return this.related_words;
     }
 
@@ -62,15 +67,15 @@ public class SemanticVector implements GenericVector {
     private void updateMagnitude() {
         // this is standard n-dimensional vector magnitude without the square root
         this.magnitude = 0.0;
-        for (Integer val : related_words.values()) {
+        for (Double val : related_words.values()) {
             if (val != 0) {
                 this.magnitude += val * val;
             }
         }
     }
 
-    public void print(){
-        System.out.println("("+base_word+":"+magnitude.toString()+")"+":"+related_words.toString());
+    public void print() {
+        System.out.println("(" + base_word + ":" + magnitude.toString() + ")" + ":" + related_words.toString());
     }
 
     /**
@@ -85,12 +90,29 @@ public class SemanticVector implements GenericVector {
                         if (related_words.containsKey(word)) {
                             this.related_words.put(word, this.related_words.get(word) + 1);
                         } else {
-                            this.related_words.put(word, 1);
+                            this.related_words.put(word, 1.0);
                         }
                     }
                 }
             }
         }
         this.updateMagnitude();
+    }
+
+    public void update(SemanticVector rhs) {
+        for (Map.Entry<String, Double> word : rhs.getVector().entrySet()) {
+            if (related_words.containsKey(word.getKey())) {
+                related_words.put(word.getKey(), related_words.get(word.getKey()) + word.getValue());
+            } else {
+                related_words.put(word.getKey(), word.getValue());
+            }
+        }
+    }
+
+    public void normalizeBy(Integer value) {
+        for (Map.Entry<String, Double> temp : related_words.entrySet()) {
+            related_words.put(temp.getKey(), temp.getValue() / (double) value);
+
+        }
     }
 }

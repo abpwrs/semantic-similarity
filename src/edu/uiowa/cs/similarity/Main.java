@@ -13,6 +13,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Main {
@@ -29,6 +31,7 @@ public class Main {
         System.out.println("topj WORD COUNT - Calculates the top COUNT(int) related vectors to WORD(string)." +
                 "\n                  Uses cosine by default, see \"measure\" command to change.");
         System.out.println("measure FUNCTION - Options include \"cosine\", \"euc\", or \"eucnorm\".");
+        System.out.println("kmeans K ITERS - Generates K clusters iterated through ITERS times.");
     }
 
     public static void main(String[] args) throws IOException {
@@ -135,6 +138,16 @@ public class Main {
                     System.out.println(s_command[1] + " is not a valid function type. See help for more details.");
                 }
                 System.out.println("Similarity measure is" + choosenFunc.getMethodName());
+            } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
+                //TODO: Check that k and iters is int
+                System.out.println(Integer.parseInt(s_command[1]));
+                System.out.println(Integer.parseInt(s_command[2]));
+                HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
+                System.out.println(temp.entrySet().size());
+                for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {
+                    System.out.println("Cluster: " + entry.getKey());
+                    System.out.println(entry.getValue());
+                }
             } else {
                 System.err.println("Unrecognized command");
             }

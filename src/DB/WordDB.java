@@ -1,5 +1,6 @@
 package DB;
 
+import Similarity.NegEuclideanDist;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
 
@@ -15,6 +16,8 @@ public class WordDB implements Database {
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
+    // TODO: implement WordDB.size() method to validate k;
+
     private HashMap<String, SemanticVector> words_as_vectors;
     HashMap<String, Boolean> updated = new HashMap<>();
     private ArrayList<ArrayList<String>> all_sentences;
@@ -144,13 +147,94 @@ public class WordDB implements Database {
 
         // this fills in the rest of the values with unrelated values if not enough words are actually related
         for (Map.Entry<String, SemanticVector> elem : words_as_vectors.entrySet()) {
-                if (most_related.size() >= J) {
+            if (most_related.size() >= J) {
                 break;
             } else if (!relation.containsKey(elem.getKey())) {
+                //relation.put(elem.getKey(), simFunc.calculateSimilarity(base_word, elem.getValue()));
                 relation.put(elem.getKey(), simFunc.getUnrelatedValue());
                 most_related.add(new AbstractMap.SimpleEntry<>(elem.getKey(), simFunc.calculateSimilarity(base_word, words_as_vectors.get(elem.getKey()))));
             }
         }
         return most_related;
     }
+
+    //TODO: input validation
+    public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
+        HashMap<String, Double> magnitudes = new HashMap<>();
+
+        for (SemanticVector temp : words_as_vectors.values()) {
+            magnitudes.put(temp.getWord(), temp.getMagnitude());
+        }
+
+        SimilarityFunction neg_euc = new NegEuclideanDist();
+
+        SemanticVector means[] = new SemanticVector[k];
+
+        for (int i = 0; i < k; i++) {
+            String max = Collections.max(magnitudes.entrySet(), Map.Entry.comparingByValue()).getKey();
+            means[i] = words_as_vectors.get(max);
+            magnitudes.remove(max);
+
+        }
+
+        HashMap<Integer, LinkedList<SemanticVector>> clusters = new HashMap<>(k);
+
+        // K-means calculation
+        for (int i = 0; i < iters; ++i) {
+            clusters = new HashMap<>(k);
+
+            for (int j = 0; j < k; j++) {
+                clusters.put(i, new LinkedList<>());
+            }
+
+            for (Map.Entry<String, SemanticVector> p : words_as_vectors.entrySet()) {
+                // assign to clusters
+                int min_means_index = 0;
+                Double min_relation = Double.NEGATIVE_INFINITY;
+
+                for (int j = 0; j < k; j++) {
+                    Double temp = neg_euc.calculateSimilarity(p.getValue(), means[i]);
+                    if (temp > min_relation) {
+                        min_relation = temp;
+                        min_means_index = i;
+                    }
+                }
+
+                LinkedList<SemanticVector> temp = clusters.get(min_means_index);
+                temp.add(p.getValue());
+                clusters.put(min_means_index, temp);
+            }
+            //TODO EFFICIENCY
+            for (int j = 0; j < k; j++) {
+                // adjust means
+                means[i] = this.calculate_centroid(clusters.get(i));
+
+            }
+
+        }
+
+        return clusters;
+    }
+
+    private SemanticVector calculate_centroid(LinkedList<SemanticVector> cluster) {
+//        SimilarityFunction similarityFunction = new NegEuclideanDist();
+//        Double min_cost = Double.NEGATIVE_INFINITY;
+//        SemanticVector min_word = null;
+//        for (SemanticVector main : cluster) {
+//            Double word_cost = 0.0;
+//            for (SemanticVector sub : cluster) {
+//                word_cost += similarityFunction.calculateSimilarity(main, sub);
+//            }
+//        }
+        // TODO: implement the addition of vectors
+        //
+        SemanticVector center = new SemanticVector();
+        for (SemanticVector val : cluster) {
+            center.update(val);
+        }
+        center.normalizeBy(cluster.size());
+        return center;
+    }
+
+
 }
