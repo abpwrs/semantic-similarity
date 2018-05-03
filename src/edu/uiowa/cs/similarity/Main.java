@@ -17,8 +17,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ *
+ */
 public class Main {
 
+    /**
+     *
+     */
     private static void printMenu() {
 
         System.out.println("Supported commands:");
@@ -34,6 +40,10 @@ public class Main {
         System.out.println("kmeans K ITERS - Generates K clusters iterated through ITERS times.");
     }
 
+    /**
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         WordDB wordDB = new WordDB();

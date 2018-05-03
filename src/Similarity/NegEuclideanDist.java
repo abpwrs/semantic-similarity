@@ -4,9 +4,17 @@ import Vectors.SemanticVector;
 
 import java.util.Map;
 
+/**
+ *
+ */
 public class NegEuclideanDist extends SimilarityFunction {
     //TODO: BEN: Write JUnit tests.
 
+    /**
+     * @param main_vector
+     * @param comp_vector
+     * @return
+     */
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         Double sum = 0.0;
@@ -24,11 +32,17 @@ public class NegEuclideanDist extends SimilarityFunction {
         return -1 * Math.sqrt(sum);
     }
 
+    /**
+     * @return
+     */
     @Override
     public String getMethodName() {
         return "negative euclidean distance";
     }
 
+    /**
+     * @return
+     */
     @Override
     public Double getUnrelatedValue() {
         return Double.NEGATIVE_INFINITY;

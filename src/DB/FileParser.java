@@ -25,7 +25,6 @@ public class FileParser {
 
     }
 
-
     // Static Constructor to initialize the STOPWORDS LinkedList
     static {
         try {
@@ -97,9 +96,13 @@ public class FileParser {
         return null;
     }
 
+    /**
+     * @param x a string to check to see if it can be parsed to an int
+     * @return a boolean representing whether or not the string contains a number
+     */
     public static boolean isNumeric(String x) {
         try {
-            Integer.parseInt(x);
+            Double.parseDouble(x);
         } catch (NumberFormatException e) {
             return false;
         }

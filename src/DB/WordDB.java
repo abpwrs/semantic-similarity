@@ -78,15 +78,15 @@ public class WordDB implements Database {
      * @return a SemanticVector that is representative of the centroid of the cluster
      */
     private SemanticVector calculate_centroid(LinkedList<SemanticVector> cluster) {
-//        SimilarityFunction similarityFunction = new NegEuclideanDist();
-//        Double min_cost = Double.NEGATIVE_INFINITY;
-//        SemanticVector min_word = null;
-//        for (SemanticVector main : cluster) {
-//            Double word_cost = 0.0;
-//            for (SemanticVector sub : cluster) {
-//                word_cost += similarityFunction.calculateSimilarity(main, sub);
-//            }
-//        }
+        //SimilarityFunction similarityFunction = new NegEuclideanDist();
+        //Double min_cost = Double.NEGATIVE_INFINITY;
+        //SemanticVector min_word = null;
+        //for (SemanticVector main : cluster) {
+        //    Double word_cost = 0.0;
+        //    for (SemanticVector sub : cluster) {
+        //        word_cost += similarityFunction.calculateSimilarity(main, sub);
+        //    }
+        //}
         SemanticVector center = new SemanticVector();
         for (SemanticVector val : cluster) {
             center.update(val);

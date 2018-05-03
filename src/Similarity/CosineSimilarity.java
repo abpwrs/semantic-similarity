@@ -5,6 +5,11 @@ import Vectors.SemanticVector;
 import java.util.Map;
 
 public class CosineSimilarity extends SimilarityFunction {
+    /**
+     * @param main_vector
+     * @param comp_vector
+     * @return
+     */
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         Double sum = 0.0;
@@ -22,11 +27,17 @@ public class CosineSimilarity extends SimilarityFunction {
         return sum / Math.sqrt(main_vector.getMagnitude() * comp_vector.getMagnitude());
     }
 
+    /**
+     * @return
+     */
     @Override
     public String getMethodName() {
         return "cosine similarity";
     }
 
+    /**
+     * @return
+     */
     @Override
     public Double getUnrelatedValue() {
         return 0.0;

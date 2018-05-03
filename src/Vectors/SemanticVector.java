@@ -5,10 +5,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class SemanticVector implements GenericVector {
     // Attributes
+    /**
+     *
+     */
     private String base_word;
+    /**
+     *
+     */
     private Double magnitude;
+    /**
+     *
+     */
     private HashMap<String, Double> related_words;
 
     //Methods
@@ -99,6 +111,9 @@ public class SemanticVector implements GenericVector {
         this.updateMagnitude();
     }
 
+    /**
+     * @param rhs
+     */
     public void update(SemanticVector rhs) {
         for (Map.Entry<String, Double> word : rhs.getVector().entrySet()) {
             if (related_words.containsKey(word.getKey())) {
@@ -110,6 +125,9 @@ public class SemanticVector implements GenericVector {
         this.updateMagnitude();
     }
 
+    /**
+     * @param value
+     */
     public void normalizeBy(Integer value) {
         for (Map.Entry<String, Double> temp : related_words.entrySet()) {
             related_words.put(temp.getKey(), temp.getValue() / (double) value);
