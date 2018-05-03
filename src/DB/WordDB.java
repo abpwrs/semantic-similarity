@@ -8,7 +8,7 @@ import java.util.*;
 
 
 /**
- * Possible Word DataBase Class
+ * Word DataBase Class
  */
 public class WordDB implements Database {
     //TODO: BEN: Issue 12? Extra?
@@ -16,34 +16,103 @@ public class WordDB implements Database {
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
-    // TODO: implement WordDB.size() method to validate k;
+    // TODO: implement WordDB.size() method to validate k; -- may not be neccesary, we already have methods to get the number of vectors...
 
+
+    // ATTRIBUTES
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Primary Data Structure to map each word to it's corresponding vector
+     */
     private HashMap<String, SemanticVector> words_as_vectors;
-    HashMap<String, Boolean> updated = new HashMap<>();
-    private ArrayList<ArrayList<String>> all_sentences;
-    private boolean DB_exists;
 
+    /**
+     * the updated HashMap is used to increase the efficiency of our program
+     * updated stops the indexing function from recreating the same vector multiple times
+     * i.e. no double/triple indexing of words
+     */
+    private HashMap<String, Boolean> updated;
+
+    /**
+     * this is a data structure used
+     */
+    private ArrayList<ArrayList<String>> all_sentences;
+
+    /**
+     * a boolean used for diagnostic printing
+     */
+    private boolean DB_exists;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Constructor instantiates each of the internal data structures
+     */
+    public WordDB() {
+        this.words_as_vectors = new HashMap<>();
+        this.all_sentences = new ArrayList<>();
+        this.updated = new HashMap<>();
+        this.DB_exists = false;
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // UTILITY FUNCTIONS (i.e. private functions)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * utility function to reset the updated HashMap for each indexing of a new file
+     */
     private void reset_updated_false() {
         for (String temp : updated.keySet()) {
             updated.put(temp, false);
         }
     }
 
-    public boolean isEmpty() {
-        return words_as_vectors.isEmpty();
-    }
-
     /**
-     *
+     * @param cluster a single cluster to calculate the average of
+     * @return a SemanticVector that is representative of the centroid of the cluster
      */
-    public WordDB() {
-        this.words_as_vectors = new HashMap<>();
-        this.all_sentences = new ArrayList<>();
-        this.DB_exists = false;
+    private SemanticVector calculate_centroid(LinkedList<SemanticVector> cluster) {
+//        SimilarityFunction similarityFunction = new NegEuclideanDist();
+//        Double min_cost = Double.NEGATIVE_INFINITY;
+//        SemanticVector min_word = null;
+//        for (SemanticVector main : cluster) {
+//            Double word_cost = 0.0;
+//            for (SemanticVector sub : cluster) {
+//                word_cost += similarityFunction.calculateSimilarity(main, sub);
+//            }
+//        }
+        SemanticVector center = new SemanticVector();
+        for (SemanticVector val : cluster) {
+            center.update(val);
+        }
+        center.normalizeBy(cluster.size());
+        return center;
     }
 
     /**
-     * @param filename
+     * @return returns a random SemanticVector in the DataSet
+     */
+    private SemanticVector sampleWithoutReplacement() {
+        Random generator = new Random();
+        Object[] keys = this.words_as_vectors.keySet().toArray();
+        Object randomKey = keys[generator.nextInt(keys.length)];
+        String key = (String) randomKey;
+        return this.words_as_vectors.get(key);
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // PRIMARY METHODS FOR THE PROJECT
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param filename the file name to be read and added to the database
      */
     @Override
     public void index(String filename) {
@@ -51,12 +120,15 @@ public class WordDB implements Database {
         // for each word in the file data we need to updated the semantic vector of that class
         System.out.println("Indexing " + filename);
         ArrayList<ArrayList<String>> parseResult = FileParser.parse(filename);
-        // small null pointer exception to catch if file not found
+        // small null pointer exception to deal with if file is not found
         if (parseResult != null) {
+            // capture start time
             long start = System.currentTimeMillis();
             //?? TODO: May_1
             // Why is it faster to do this out here? We should write about why for the last question of part 4.
             //      adding the sentences here cut 20 seconds off the index time for war and peace. 82.341 --> 62.33
+
+            // update the sentences data structure
             this.all_sentences.addAll(parseResult);
             for (ArrayList<String> sentence : parseResult) {
                 for (String word : sentence) {
@@ -83,50 +155,19 @@ public class WordDB implements Database {
                     }
                 }
             }
+            // capture end time
             long end = System.currentTimeMillis();
+            // Diagnostic Printing
             System.out.println("Time taken to " + (!this.DB_exists ? "create" : "append to") + " Word Database (WordDB) " + ((float) (end - start) / 1000f) + " seconds");
             this.DB_exists = true;
         }
     }
 
     /**
-     * @return
-     */
-    public int numSentences() {
-        return this.all_sentences.size();
-    }
-
-    /**
-     * @return
-     */
-    public ArrayList<ArrayList<String>> getAllSentences() {
-        return this.all_sentences;
-    }
-
-
-    /**
-     * @return
-     */
-    public int numVectors() {
-        return this.words_as_vectors.size();
-    }
-
-    public boolean contains(String check) {
-        return this.words_as_vectors.containsKey(check);
-    }
-
-    /**
-     * @return
-     */
-    public Collection<SemanticVector> getVectors() {
-        return this.words_as_vectors.values();
-    }
-
-    /**
      * @param word    The word we want to find words similar to
      * @param J       The number of similar words to return
      * @param simFunc A similarity function to base the vector relations off of
-     * @return
+     * @return returns the J most related words
      */
     public ArrayList<Map.Entry<String, Double>> TopJ(String word, Integer J, SimilarityFunction simFunc) {
         if (J > this.words_as_vectors.size() - 1) {
@@ -158,8 +199,15 @@ public class WordDB implements Database {
         return most_related;
     }
 
+
     //TODO: input validation in Main
     //TODO: Figure out why everything is added to one cluster
+
+    /**
+     * @param k     the number of clusters we want to find
+     * @param iters the number of iterations/refinements we want to use to calculate our clusters
+     * @return returns a HashMap of clusters
+     */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
 
         // No longer need a magnitudes HashMap
@@ -230,33 +278,76 @@ public class WordDB implements Database {
 
         return clusters;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private SemanticVector calculate_centroid(LinkedList<SemanticVector> cluster) {
-//        SimilarityFunction similarityFunction = new NegEuclideanDist();
-//        Double min_cost = Double.NEGATIVE_INFINITY;
-//        SemanticVector min_word = null;
-//        for (SemanticVector main : cluster) {
-//            Double word_cost = 0.0;
-//            for (SemanticVector sub : cluster) {
-//                word_cost += similarityFunction.calculateSimilarity(main, sub);
-//            }
-//        }
-        SemanticVector center = new SemanticVector();
-        for (SemanticVector val : cluster) {
-            center.update(val);
+
+    // OTHER USEFUL PUBLIC FUNCTIONS THAT WOULD BE STANDARD
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Resets the Database to be empty
+     */
+    public void RESET_DB() {
+        // the clears aren't necessary, but make me feel better
+        System.out.println("Are you sure you want to reset the DataBase? (y/n)");
+        Scanner in = new Scanner(System.in);
+        if (in.nextLine().toLowerCase().equals("y")) {
+            this.words_as_vectors.clear();
+            this.words_as_vectors = new HashMap<>();
+            this.all_sentences.clear();
+            this.all_sentences = new ArrayList<>();
+            this.updated.clear();
+            this.updated = new HashMap<>();
+            this.DB_exists = false;
+        } else {
+            System.out.println("Solid choice!\nKeeping the DB as is.");
         }
-        center.normalizeBy(cluster.size());
-        return center;
     }
 
-    private SemanticVector sampleWithoutReplacement() {
-        Random generator = new Random();
-        Object[] keys = this.words_as_vectors.keySet().toArray();
-        Object randomKey = keys[generator.nextInt(keys.length)];
-        String key = (String) randomKey;
-        return this.words_as_vectors.get(key);
-
+    /**
+     * @return the size of the sentences ArrayList
+     */
+    public int numSentences() {
+        return this.all_sentences.size();
     }
+
+    /**
+     * @return All of the sentences that have been indexed into the DB
+     */
+    public ArrayList<ArrayList<String>> getAllSentences() {
+        return this.all_sentences;
+    }
+
+
+    /**
+     * @return the size of the vectors HashMap
+     */
+    public int numVectors() {
+        return this.words_as_vectors.size();
+    }
+
+    /**
+     * @param check a word that may or may not exist in the DB
+     * @return a boolean representing whether or not the word is in the database
+     */
+    public boolean contains(String check) {
+        return this.words_as_vectors.containsKey(check);
+    }
+
+    /**
+     * @return the semantic vectors stored in the DB
+     */
+    public Collection<SemanticVector> getVectors() {
+        return this.words_as_vectors.values();
+    }
+
+    /**
+     * @return a boolean value representing the status of the database
+     */
+    public boolean isEmpty() {
+        return words_as_vectors.isEmpty();
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 }
