@@ -209,6 +209,7 @@ public class WordDB implements Database {
                 most_related.add(new AbstractMap.SimpleEntry<>(elem.getKey(), simFunc.calculateSimilarity(base_word, words_as_vectors.get(elem.getKey()))));
             }
         }
+
         long end = System.currentTimeMillis();
         System.out.println("Time taken to calculate TopJ " + ((float) (end - start) / 1000f) + " seconds, using: " + simFunc.getMethodName());
         return most_related;
@@ -349,6 +350,5 @@ public class WordDB implements Database {
         return words_as_vectors.isEmpty();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 }
