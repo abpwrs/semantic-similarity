@@ -84,7 +84,7 @@ public class Main {
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(wordDB.getAllSentences());
 
-                // Print edu.uiowa.cs.similarity.Vectors Command
+                // Print SimilarityVectors Command
                 //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("vectors") || s_command[0].equals("v")) {
                 for (SemanticVector vector : wordDB.getVectors()) {
@@ -120,7 +120,6 @@ public class Main {
                         } else {
                             System.out.println("The third argument must be an integer");
                         }
-
                     } else {
                         System.out.println("Cannot compute TopJ similarity to " + s_command[1]);
                     }
@@ -142,22 +141,29 @@ public class Main {
                 } else {
                     System.out.println(s_command[1] + " is not a valid function type. See help for more details.");
                 }
-                System.out.println("edu.uiowa.cs.similarity.SimilarityFunctions measure is " + choosenFunc.getMethodName());
+                System.out.println("SimilarityFunctions measure is " + choosenFunc.getMethodName());
 
                 // K-Means Command
                 //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
-                //TODO: Check that k and iters is int
-                //System.out.println(Integer.parseInt(s_command[1]));
-                //System.out.println(Integer.parseInt(s_command[2]));
-                HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
-                System.out.println(temp.entrySet().size());
-                for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {
-                    System.out.println("Cluster: " + entry.getKey());
-                    for (SemanticVector vector : entry.getValue()) {
-                        System.out.print(vector.getWord() + ", ");
+                if (FileParser.isNumeric(s_command[1]) && FileParser.isNumeric(s_command[2])) {
+                    if (Integer.parseInt(s_command[2]) > wordDB.numVectors() - 1) {
+                        HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
+                        System.out.println(temp.entrySet().size());
+                        for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {
+                            System.out.println("Cluster: " + entry.getKey());
+                            for (SemanticVector vector : entry.getValue()) {
+                                System.out.print(vector.getWord() + ", ");
+                            }
+                            System.out.println();
+                        }
+                    } else {
+                        System.out.println("K is to large to calculate that many clusters\nDatabase only has: " + wordDB.numVectors() + " elements");
                     }
-                    System.out.println();
+
+                } else {
+                    System.out.println("Incorrect command usage");
+                    printMenu();
                 }
             } else {
                 System.err.println("Unrecognized command");

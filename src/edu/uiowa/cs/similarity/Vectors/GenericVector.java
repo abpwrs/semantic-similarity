@@ -11,7 +11,7 @@ public interface GenericVector {
     /**
      * @return
      */
-    double getMagnitude(/* idk if this needs parameters*/);
+    double getMagnitude();
 
     /**
      * @return

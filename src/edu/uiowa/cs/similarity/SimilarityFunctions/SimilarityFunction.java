@@ -17,11 +17,9 @@ public abstract class SimilarityFunction {
         for (int i = 0; i < J && sentinel; i++) {
             try {
                 String max = Collections.max(relation.entrySet(), Map.Entry.comparingByValue()).getKey();
-                ret.add(new AbstractMap.SimpleEntry<String, Double>(max, relation.get(max)));
+                ret.add(new AbstractMap.SimpleEntry<>(max, relation.get(max)));
                 relation.remove(max);
             } catch (NoSuchElementException e) {
-                // TODO: modify WordDB to return ccompletly unrelated values so that we can delete this line
-                // System.out.println("Not enough related elements to compare.\nReturning all related elements.\n");
                 sentinel = false;
             }
         }

@@ -14,7 +14,6 @@ public class WordDB implements Database {
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
-    // TODO: implement WordDB.size() method to validate k; -- may not be neccesary, we already have methods to get the number of vectors...
 
 
     // ATTRIBUTES
@@ -205,18 +204,8 @@ public class WordDB implements Database {
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
         long start = System.currentTimeMillis();
-        //TODO: BEN: Verify that there's an existing edu.uiowa.cs.similarity.DB
-
-        // No longer need a magnitudes HashMap
-//        HashMap<String, Double> magnitudes = new HashMap<>();
-//
-//        for (SemanticVector temp : words_as_vectors.values()) {
-//            magnitudes.put(temp.getWord(), temp.getMagnitude());
-//        }
-
+        //TODO: BEN: Verify that there's an existing WordDB -- This is covered in validation in main
         SimilarityFunction simFunc = new NegEuclideanDist();
-        //SimilarityFunction simFunc = new CosineSimilarity();
-
         SemanticVector means[] = new SemanticVector[k];
 
         // attempt that selected initial values based on which vectors had the greatest magnitudes
@@ -260,11 +249,14 @@ public class WordDB implements Database {
                 temp.add(point.getValue());
                 clusters.put(min_means_index, temp);
             }
-            //TODO: Alex: EFFICIENCY
-            for (int i = 0; i < k; i++) {
-                // adjust means
-                means[i] = this.calculate_centroid(clusters.get(i));
 
+            // Doesn't recalculate the means on the last iteration
+            if (iter != iters - 1) {
+                for (int i = 0; i < k; i++) {
+                    // adjusts means
+                    means[i] = this.calculate_centroid(clusters.get(i));
+
+                }
             }
 
             // remove the mean from the vector
