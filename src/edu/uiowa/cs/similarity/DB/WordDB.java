@@ -204,7 +204,6 @@ public class WordDB implements Database {
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
         long start = System.currentTimeMillis();
-        //TODO: BEN: Verify that there's an existing WordDB -- This is covered in validation in main
         SimilarityFunction simFunc = new NegEuclideanDist();
         SemanticVector means[] = new SemanticVector[k];
 
