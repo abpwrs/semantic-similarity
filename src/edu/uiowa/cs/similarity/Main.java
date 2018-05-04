@@ -118,11 +118,7 @@ public class Main {
                     if (wordDB.contains(stemmer.stem(s_command[1]))) {
                         stemmer.reset();
                         if (FileParser.isNumeric(s_command[2])) {
-                            long start = System.currentTimeMillis();
                             ArrayList<Map.Entry<String, Double>> topj = wordDB.TopJ(stemmer.stem(s_command[1]), Integer.parseInt(s_command[2]), choosenFunc);
-                            long end = System.currentTimeMillis();
-                            System.out.println("Time taken to calculate TopJ " + ((float) (end - start) / 1000f) + " seconds, using: " + choosenFunc.getMethodName());
-
                             System.out.println(topj);
                         } else {
                             System.out.println("The third argument must be an integer");

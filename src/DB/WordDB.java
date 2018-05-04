@@ -174,6 +174,7 @@ public class WordDB implements Database {
             System.out.println("Error: not enough elements to compute TopJ");
             return null;
         }
+        long start = System.currentTimeMillis();
         SemanticVector base_word = this.words_as_vectors.get(word);
         //TODO: May_1 part 3, why we didn't use ArrayList
         HashMap<String, Double> relation = new HashMap<>();
@@ -196,6 +197,8 @@ public class WordDB implements Database {
                 most_related.add(new AbstractMap.SimpleEntry<>(elem.getKey(), simFunc.calculateSimilarity(base_word, words_as_vectors.get(elem.getKey()))));
             }
         }
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken to calculate TopJ " + ((float) (end - start) / 1000f) + " seconds, using: " + simFunc.getMethodName());
         return most_related;
     }
 
@@ -209,6 +212,7 @@ public class WordDB implements Database {
      * @return returns a HashMap of clusters
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
+        long start = System.currentTimeMillis();
 
         // No longer need a magnitudes HashMap
 //        HashMap<String, Double> magnitudes = new HashMap<>();
@@ -238,43 +242,43 @@ public class WordDB implements Database {
         HashMap<Integer, LinkedList<SemanticVector>> clusters = new HashMap<>();
 
         // K-means calculation
-        for (int i = 0; i < iters; ++i) {
+        for (int iter = 0; iter < iters; ++iter) {
             clusters = new HashMap<>();
 
-            for (int j = 0; j < k; j++) {
-                //LinkedList<SemanticVector> temp = new LinkedList<>();
-                //temp.add(means[j]);
-                //clusters.put(j, temp);
-                clusters.put(j, new LinkedList<>());
+            for (int i = 0; i < k; i++) {
+                clusters.put(i, new LinkedList<>());
             }
 
-            for (Map.Entry<String, SemanticVector> p : this.words_as_vectors.entrySet()) {
+            for (Map.Entry<String, SemanticVector> point : this.words_as_vectors.entrySet()) {
                 // assign to clusters
                 int min_means_index = 0;
                 Double min_relation = Double.NEGATIVE_INFINITY;
 
-                for (int j = 0; j < k; j++) {
-                    Double temp = neg_euc.calculateSimilarity(p.getValue(), means[j]);
+                for (int i = 0; i < k; i++) {
+                    Double temp = neg_euc.calculateSimilarity(point.getValue(), means[i]);
                     if (temp > min_relation) {
                         min_relation = temp;
-                        min_means_index = j;
+                        min_means_index = i;
                     }
                 }
 
                 LinkedList<SemanticVector> temp = clusters.get(min_means_index);
-                temp.add(p.getValue());
+                temp.add(point.getValue());
                 clusters.put(min_means_index, temp);
             }
             //TODO: Alex: EFFICIENCY
-            for (int j = 0; j < k; j++) {
+            for (int i = 0; i < k; i++) {
                 // adjust means
-                means[j] = this.calculate_centroid(clusters.get(j));
+                means[i] = this.calculate_centroid(clusters.get(i));
 
             }
 
             // remove the mean from the vector
 
         }
+        long end = System.currentTimeMillis();
+        System.out.println("Time taken to calculate K-Means " + ((float) (end - start) / 1000f) + " seconds, using: " + neg_euc.getMethodName());
+
 
         return clusters;
     }

@@ -26,9 +26,18 @@ public class NegEuclideanDist extends SimilarityFunction {
                 if (comp_vector.getVector().containsKey(entry.getKey()) /*&& comp_vector.getVector().get(entry.getKey()) != 0*/) {
                     sum += (entry.getValue() - comp_vector.getVector().get(entry.getKey())) *
                             (entry.getValue() - comp_vector.getVector().get(entry.getKey()));
+                } else {
+                    sum += (entry.getValue() * entry.getValue());
                 }
             }
         }
+
+        for (Map.Entry<String, Double> comp_entry : comp_vector.getVector().entrySet()) {
+            if (!main_vector.getVector().containsKey(comp_entry)) {
+                sum += (comp_entry.getValue() * comp_entry.getValue());
+            }
+        }
+
         return -1 * Math.sqrt(sum);
     }
 
