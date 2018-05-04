@@ -1,6 +1,5 @@
 package DB;
 
-import Similarity.CosineSimilarity;
 import Similarity.NegEuclideanDist;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
@@ -90,7 +89,7 @@ public class WordDB implements Database {
         for (SemanticVector val : cluster) {
             center.update(val);
         }
-        center.normalizeBy(cluster.size());
+        center.normalizeBy((double) cluster.size());
         return center;
     }
 

@@ -130,6 +130,8 @@ public class Main {
                     printMenu();
                 }
                 stemmer.reset();
+                // Change Measure Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("measure") || s_command[0].equals("m")) {
                 if (s_command[1].equals("cosine")) {
                     choosenFunc = new CosineSimilarity();
@@ -140,7 +142,10 @@ public class Main {
                 } else {
                     System.out.println(s_command[1] + " is not a valid function type. See help for more details.");
                 }
-                System.out.println("Similarity measure is" + choosenFunc.getMethodName());
+                System.out.println("Similarity measure is " + choosenFunc.getMethodName());
+
+                // K-Means Command
+                //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
                 //TODO: Check that k and iters is int
                 //System.out.println(Integer.parseInt(s_command[1]));

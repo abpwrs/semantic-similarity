@@ -32,7 +32,7 @@ public class CosineSimilarity extends SimilarityFunction {
      */
     @Override
     public String getMethodName() {
-        return "cosine similarity";
+        return "Cosine Similarity";
     }
 
     /**

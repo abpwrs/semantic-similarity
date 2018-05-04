@@ -45,7 +45,7 @@ public class NegEuclideanDist extends SimilarityFunction {
      */
     @Override
     public String getMethodName() {
-        return "negative euclidean distance";
+        return "Non-Normalized Negative Euclidean Distance";
     }
 
     /**

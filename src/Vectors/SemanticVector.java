@@ -9,7 +9,9 @@ import java.util.Map;
  *
  */
 public class SemanticVector implements GenericVector {
+
     // Attributes
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      *
      */
@@ -22,8 +24,11 @@ public class SemanticVector implements GenericVector {
      *
      */
     private HashMap<String, Double> related_words;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //Methods
+
+    // Constructors
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param main_word
@@ -36,41 +41,18 @@ public class SemanticVector implements GenericVector {
         this.updateMagnitude();
     }
 
+    /**
+     *
+     */
     public SemanticVector() {
         related_words = new HashMap<String, Double>();
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @return
-     */
-    @Override
-    public double getMagnitude() {
-        return this.magnitude;
-    }
 
-    /**
-     * @return
-     */
-    @Override
-    public boolean isEmpty() {
-        return related_words.isEmpty();
-    }
+    // UTILITY FUNCTIONS (i.e. private functions)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * @return
-     */
-    @Override
-    public HashMap<String, Double> getVector() {
-        return this.related_words;
-    }
-
-    /**
-     * @return
-     */
-    @Override
-    public String getWord() {
-        return this.base_word;
-    }
 
     /**
      *
@@ -84,10 +66,43 @@ public class SemanticVector implements GenericVector {
             }
         }
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void print() {
-        System.out.println("(" + base_word + ":" + magnitude.toString() + ")" + ":" + related_words.toString());
+
+    // Getters
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @return
+     */
+    @Override
+    public double getMagnitude() {
+        return this.magnitude;
     }
+
+
+    /**
+     * @return
+     */
+    @Override
+    public HashMap<String, Double> getVector() {
+        return this.related_words;
+    }
+
+
+    /**
+     * @return
+     */
+    @Override
+    public String getWord() {
+        return this.base_word;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // Overloaded Update Methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @param dataset
@@ -124,14 +139,35 @@ public class SemanticVector implements GenericVector {
         }
         this.updateMagnitude();
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    // Other useful functions
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     *
+     */
+    public void print() {
+        System.out.println("(" + base_word + ":" + magnitude.toString() + ")" + ":" + related_words.toString());
+    }
 
     /**
      * @param value
      */
-    public void normalizeBy(Integer value) {
+    public void normalizeBy(Double value) {
         for (Map.Entry<String, Double> temp : related_words.entrySet()) {
-            related_words.put(temp.getKey(), temp.getValue() / (double) value);
+            related_words.put(temp.getKey(), temp.getValue() / value);
         }
         this.updateMagnitude();
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public boolean isEmpty() {
+        return related_words.isEmpty();
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
