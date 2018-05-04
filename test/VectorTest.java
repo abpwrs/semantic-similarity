@@ -1,7 +1,7 @@
-import DB.WordDB;
-import Similarity.NegEuclideanDist;
-import Vectors.GenericVector;
-import Vectors.SemanticVector;
+import edu.uiowa.cs.similarity.DB.WordDB;
+import edu.uiowa.cs.similarity.SimilarityFunctions.NegEuclideanDist;
+import edu.uiowa.cs.similarity.Vectors.GenericVector;
+import edu.uiowa.cs.similarity.Vectors.SemanticVector;
 import org.junit.Test;
 
 import java.util.ArrayList;

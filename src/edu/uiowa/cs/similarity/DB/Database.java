@@ -1,4 +1,4 @@
-package DB;
+package edu.uiowa.cs.similarity.DB;
 
 /**
  *

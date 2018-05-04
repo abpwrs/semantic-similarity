@@ -1,4 +1,4 @@
-import DB.FileParser;
+import edu.uiowa.cs.similarity.DB.FileParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

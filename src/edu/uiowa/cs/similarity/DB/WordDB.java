@@ -1,8 +1,8 @@
-package DB;
+package edu.uiowa.cs.similarity.DB;
 
-import Similarity.NegEuclideanDist;
-import Similarity.SimilarityFunction;
-import Vectors.SemanticVector;
+import edu.uiowa.cs.similarity.SimilarityFunctions.NegEuclideanDist;
+import edu.uiowa.cs.similarity.SimilarityFunctions.SimilarityFunction;
+import edu.uiowa.cs.similarity.Vectors.SemanticVector;
 
 import java.util.*;
 
@@ -205,7 +205,7 @@ public class WordDB implements Database {
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
         long start = System.currentTimeMillis();
-        //TODO: BEN: Verify that there's an existing DB
+        //TODO: BEN: Verify that there's an existing edu.uiowa.cs.similarity.DB
 
         // No longer need a magnitudes HashMap
 //        HashMap<String, Double> magnitudes = new HashMap<>();
@@ -298,7 +298,7 @@ public class WordDB implements Database {
             this.updated = new HashMap<>();
             this.DB_exists = false;
         } else {
-            System.out.println("Solid choice!\nKeeping the DB as is.");
+            System.out.println("Solid choice!\nKeeping the edu.uiowa.cs.similarity.DB as is.");
         }
     }
 
@@ -310,7 +310,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @return All of the sentences that have been indexed into the DB
+     * @return All of the sentences that have been indexed into the edu.uiowa.cs.similarity.DB
      */
     public ArrayList<ArrayList<String>> getAllSentences() {
         return this.all_sentences;
@@ -325,7 +325,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @param check a word that may or may not exist in the DB
+     * @param check a word that may or may not exist in the edu.uiowa.cs.similarity.DB
      * @return a boolean representing whether or not the word is in the database
      */
     public boolean contains(String check) {
@@ -333,7 +333,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @return the semantic vectors stored in the DB
+     * @return the semantic vectors stored in the edu.uiowa.cs.similarity.DB
      */
     public Collection<SemanticVector> getVectors() {
         return this.words_as_vectors.values();

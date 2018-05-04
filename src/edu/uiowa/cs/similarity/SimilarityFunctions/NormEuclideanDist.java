@@ -1,6 +1,6 @@
-package Similarity;
+package edu.uiowa.cs.similarity.SimilarityFunctions;
 
-import Vectors.SemanticVector;
+import edu.uiowa.cs.similarity.Vectors.SemanticVector;
 
 /**
  *
@@ -45,7 +45,7 @@ public class NormEuclideanDist extends SimilarityFunction {
      */
     @Override
     public String getMethodName() {
-        return "Negative Euclidean Distance between Normalized Vectors";
+        return "Negative Euclidean Distance between Normalized edu.uiowa.cs.similarity.Vectors";
     }
 
     /**

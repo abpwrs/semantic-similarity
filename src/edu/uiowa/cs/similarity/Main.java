@@ -1,12 +1,12 @@
 package edu.uiowa.cs.similarity;
 
-import DB.FileParser;
-import DB.WordDB;
-import Similarity.CosineSimilarity;
-import Similarity.NegEuclideanDist;
-import Similarity.NormEuclideanDist;
-import Similarity.SimilarityFunction;
-import Vectors.SemanticVector;
+import edu.uiowa.cs.similarity.DB.FileParser;
+import edu.uiowa.cs.similarity.DB.WordDB;
+import edu.uiowa.cs.similarity.SimilarityFunctions.CosineSimilarity;
+import edu.uiowa.cs.similarity.SimilarityFunctions.NegEuclideanDist;
+import edu.uiowa.cs.similarity.SimilarityFunctions.NormEuclideanDist;
+import edu.uiowa.cs.similarity.SimilarityFunctions.SimilarityFunction;
+import edu.uiowa.cs.similarity.Vectors.SemanticVector;
 import opennlp.tools.stemmer.PorterStemmer;
 
 import java.io.BufferedReader;
@@ -84,7 +84,7 @@ public class Main {
             } else if (s_command[0].equals("sentences") || s_command[0].equals("s")) {
                 System.out.println(wordDB.getAllSentences());
 
-                // Print Vectors Command
+                // Print edu.uiowa.cs.similarity.Vectors Command
                 //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("vectors") || s_command[0].equals("v")) {
                 for (SemanticVector vector : wordDB.getVectors()) {
@@ -142,7 +142,7 @@ public class Main {
                 } else {
                     System.out.println(s_command[1] + " is not a valid function type. See help for more details.");
                 }
-                System.out.println("Similarity measure is " + choosenFunc.getMethodName());
+                System.out.println("edu.uiowa.cs.similarity.SimilarityFunctions measure is " + choosenFunc.getMethodName());
 
                 // K-Means Command
                 //////////////////////////////////////////////////////////////////////////

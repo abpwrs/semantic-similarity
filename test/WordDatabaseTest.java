@@ -1,4 +1,4 @@
-import DB.WordDB;
+import edu.uiowa.cs.similarity.DB.WordDB;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
