@@ -4,6 +4,7 @@ import opennlp.tools.stemmer.PorterStemmer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -28,7 +29,7 @@ public class FileParser {
     // Static Constructor to initialize the STOPWORDS LinkedList
     static {
         try {
-            Scanner stopFile = new Scanner(new File("src/data/stopwords.txt"));
+            Scanner stopFile = new Scanner(Paths.get("src/data/stopwords.txt"));
             STOP_WORDS = new LinkedList<>();
             stopFile.useDelimiter("\n");
             while (stopFile.hasNext()) {
