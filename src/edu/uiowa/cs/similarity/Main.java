@@ -50,10 +50,7 @@ public class Main {
         PorterStemmer stemmer = new PorterStemmer();
 
         SimilarityFunction choosenFunc = new CosineSimilarity();
-        //TODO: BEN: Issue 10, Implementing the measure command -- Done
 
-        //TODO: BEN: Looking into cluster class.
-        //TODO: BEN: Test data, look for issue 16 bug.
         while (true) {
             System.out.print("> ");
 
@@ -146,8 +143,8 @@ public class Main {
                 System.out.println("Similarity measure is" + choosenFunc.getMethodName());
             } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
                 //TODO: Check that k and iters is int
-                System.out.println(Integer.parseInt(s_command[1]));
-                System.out.println(Integer.parseInt(s_command[2]));
+                //System.out.println(Integer.parseInt(s_command[1]));
+                //System.out.println(Integer.parseInt(s_command[2]));
                 HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
                 System.out.println(temp.entrySet().size());
                 for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {

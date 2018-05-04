@@ -8,7 +8,6 @@ import java.util.Map;
  *
  */
 public class NegEuclideanDist extends SimilarityFunction {
-    //TODO: BEN: Write JUnit tests.
 
     /**
      * @param main_vector

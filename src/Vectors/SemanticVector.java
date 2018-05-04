@@ -24,7 +24,6 @@ public class SemanticVector implements GenericVector {
     private HashMap<String, Double> related_words;
 
     //Methods
-    //TODO: BEN: Bad vector for writing.
 
     /**
      * @param main_word

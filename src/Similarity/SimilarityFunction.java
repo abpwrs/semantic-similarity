@@ -27,8 +27,6 @@ public abstract class SimilarityFunction {
         }
         return ret;
     }
-    // TODO: BEN: Why does getmax need to be a method of the simFunctions? Shouldn't that just be part of the WordDB? - DONE
-    // TODO: ALEX: Edited this so that getMostRelated is part of this abstract class -- Done
 
 
 }

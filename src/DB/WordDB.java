@@ -1,5 +1,6 @@
 package DB;
 
+import Similarity.CosineSimilarity;
 import Similarity.NegEuclideanDist;
 import Similarity.SimilarityFunction;
 import Vectors.SemanticVector;
@@ -11,8 +12,6 @@ import java.util.*;
  * Word DataBase Class
  */
 public class WordDB implements Database {
-    //TODO: BEN: Issue 12? Extra?
-
     // Each word has a vector containing it's relation to every other word
     // if we want to try different vector implementations, we only need to change Semantic Vector to be a
     // GenericVector and then we just need to make sure we have all of the methods we need
@@ -124,7 +123,6 @@ public class WordDB implements Database {
         if (parseResult != null) {
             // capture start time
             long start = System.currentTimeMillis();
-            //?? TODO: May_1
             // Why is it faster to do this out here? We should write about why for the last question of part 4.
             //      adding the sentences here cut 20 seconds off the index time for war and peace. 82.341 --> 62.33
 
@@ -176,7 +174,6 @@ public class WordDB implements Database {
         }
         long start = System.currentTimeMillis();
         SemanticVector base_word = this.words_as_vectors.get(word);
-        //TODO: May_1 part 3, why we didn't use ArrayList
         HashMap<String, Double> relation = new HashMap<>();
         for (Map.Entry<String, SemanticVector> elem : this.words_as_vectors.entrySet()) {
             if (elem.getValue().getVector().containsKey(word)) {
@@ -202,10 +199,6 @@ public class WordDB implements Database {
         return most_related;
     }
 
-
-    //TODO: input validation in Main
-    //TODO: Figure out why everything is added to one cluster
-
     /**
      * @param k     the number of clusters we want to find
      * @param iters the number of iterations/refinements we want to use to calculate our clusters
@@ -213,6 +206,7 @@ public class WordDB implements Database {
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
         long start = System.currentTimeMillis();
+        //TODO: BEN: Verify that there's an existing DB
 
         // No longer need a magnitudes HashMap
 //        HashMap<String, Double> magnitudes = new HashMap<>();
@@ -221,7 +215,8 @@ public class WordDB implements Database {
 //            magnitudes.put(temp.getWord(), temp.getMagnitude());
 //        }
 
-        SimilarityFunction neg_euc = new NegEuclideanDist();
+        SimilarityFunction simFunc = new NegEuclideanDist();
+        //SimilarityFunction simFunc = new CosineSimilarity();
 
         SemanticVector means[] = new SemanticVector[k];
 
@@ -255,7 +250,7 @@ public class WordDB implements Database {
                 Double min_relation = Double.NEGATIVE_INFINITY;
 
                 for (int i = 0; i < k; i++) {
-                    Double temp = neg_euc.calculateSimilarity(point.getValue(), means[i]);
+                    Double temp = simFunc.calculateSimilarity(point.getValue(), means[i]);
                     if (temp > min_relation) {
                         min_relation = temp;
                         min_means_index = i;
@@ -277,7 +272,7 @@ public class WordDB implements Database {
 
         }
         long end = System.currentTimeMillis();
-        System.out.println("Time taken to calculate K-Means " + ((float) (end - start) / 1000f) + " seconds, using: " + neg_euc.getMethodName());
+        System.out.println("Time taken to calculate K-Means " + ((float) (end - start) / 1000f) + " seconds, using: " + simFunc.getMethodName());
 
 
         return clusters;
