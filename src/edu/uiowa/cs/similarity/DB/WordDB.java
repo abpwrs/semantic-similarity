@@ -40,6 +40,16 @@ public class WordDB implements Database {
      * a boolean used for diagnostic printing
      */
     private boolean DB_exists;
+
+    // These are all only neccessary because we added the extra-credit worth 3 points...
+
+    private boolean KMEANS_RUN;
+
+    private SemanticVector means[];
+
+    HashMap<Integer, LinkedList<SemanticVector>> clusters;
+
+    private Integer K;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -54,6 +64,8 @@ public class WordDB implements Database {
         this.all_sentences = new ArrayList<>();
         this.updated = new HashMap<>();
         this.DB_exists = false;
+        this.KMEANS_RUN = false;
+        this.clusters = new HashMap<>();
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -75,15 +87,23 @@ public class WordDB implements Database {
      * @return a SemanticVector that is representative of the centroid of the cluster
      */
     private SemanticVector calculate_centroid(LinkedList<SemanticVector> cluster) {
-        //SimilarityFunction similarityFunction = new NegEuclideanDist();
-        //Double min_cost = Double.NEGATIVE_INFINITY;
-        //SemanticVector min_word = null;
-        //for (SemanticVector main : cluster) {
-        //    Double word_cost = 0.0;
-        //    for (SemanticVector sub : cluster) {
-        //        word_cost += similarityFunction.calculateSimilarity(main, sub);
-        //    }
-        //}
+        // First attempt at calculating a centroid
+
+//        SimilarityFunction similarityFunction = new NegEuclideanDist();
+//        Double min_cost = Double.NEGATIVE_INFINITY;
+//        SemanticVector min_word = null;
+//        for (SemanticVector main : cluster) {
+//            Double word_cost = 0.0;
+//            for (SemanticVector sub : cluster) {
+//                word_cost += similarityFunction.calculateSimilarity(main, sub);
+//            }
+//            if (word_cost > min_cost) {
+//                min_word = main;
+//            }
+//        }
+//        return min_word;
+
+
         SemanticVector center = new SemanticVector();
         for (SemanticVector val : cluster) {
             center.update(val);
@@ -103,7 +123,7 @@ public class WordDB implements Database {
         return this.words_as_vectors.get(key);
     }
 
-    private Double averageDist(HashMap<Integer, LinkedList<SemanticVector>> clusters, SemanticVector[] means) {
+    private Double averageDist() {
         Double running_avg = 0.0;
         Double cluster_avg = 0.0;
         SimilarityFunction similarityFunction = new NegEuclideanDist();
@@ -118,6 +138,22 @@ public class WordDB implements Database {
 
         return running_avg / clusters.size();
 
+    }
+
+
+    private ArrayList<Map.Entry<String, Double>> topj_cluster(Integer cluster_index, Integer J) {
+        LinkedList<SemanticVector> curr_cluster = clusters.get(cluster_index);
+        SimilarityFunction euc = new NegEuclideanDist();
+        HashMap<String, Double> relation = new HashMap<>();
+
+        for (SemanticVector vect_1 : curr_cluster) {
+            Double word_cost = 0.0;
+            for (SemanticVector vect_2 : curr_cluster) {
+                word_cost += euc.calculateSimilarity(vect_1, vect_2);
+            }
+            relation.put(vect_1.getWord(), word_cost);
+        }
+        return euc.getMostRelated(relation, J);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -220,16 +256,16 @@ public class WordDB implements Database {
      * @return returns a HashMap of clusters
      */
     public HashMap<Integer, LinkedList<SemanticVector>> k_means(int k, int iters) {
+        KMEANS_RUN = true;
+        this.K = k;
         long start = System.currentTimeMillis();
         SimilarityFunction simFunc = new NegEuclideanDist();
-        SemanticVector means[] = new SemanticVector[k];
+        means = new SemanticVector[k];
 
         // sample without replacement for means initial values
         for (int i = 0; i < k; i++) {
             means[i] = this.sampleWithoutReplacement();
         }
-
-        HashMap<Integer, LinkedList<SemanticVector>> clusters = new HashMap<>();
 
         // K-means calculation
         for (int iter = 0; iter < iters; ++iter) {
@@ -259,7 +295,7 @@ public class WordDB implements Database {
 
 
             // Print out how accurate the average distance between means and clusters is
-            System.out.println("Average Euclidean Distance for iteration: " + iter + " is " + this.averageDist(clusters, means));
+            System.out.println("Average Euclidean Distance for iteration: " + iter + " is " + this.averageDist());
 
             // Doesn't recalculate the means on the last iteration
             if (iter != iters - 1) {
@@ -270,14 +306,32 @@ public class WordDB implements Database {
                 }
             }
 
-            // remove the mean from the vector
-
         }
         long end = System.currentTimeMillis();
         System.out.println("Time taken to calculate K-Means " + ((float) (end - start) / 1000f) + " seconds, using: " + simFunc.getMethodName());
 
 
         return clusters;
+    }
+
+    public void representatives(Integer j) {
+        if (KMEANS_RUN) {
+            for (int i = 0; i < K; i++) {
+                ArrayList<Map.Entry<String, Double>> top = this.topj_cluster(i, j);
+                if (clusters.get(i).size() >= j) {
+                    System.out.println("Representatives of Cluster: " + i + " are: ");
+                } else {
+                    System.out.println("Cluster: " + (i + 1) + " doesn't have j elements\nElements are : ");
+                }
+                for (Map.Entry<String, Double> entry : top) {
+                    System.out.print(entry.getKey() + ", " + entry.getValue() + ", ");
+                }
+                System.out.println();
+            }
+        } else {
+            System.out.println("K-Means must be calculated before representatives of the cluster can be identified");
+        }
+
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -300,8 +354,9 @@ public class WordDB implements Database {
             this.updated.clear();
             this.updated = new HashMap<>();
             this.DB_exists = false;
+            this.KMEANS_RUN = false;
         } else {
-            System.out.println("Solid choice!\nKeeping the edu.uiowa.cs.similarity.DB as is.");
+            System.out.println("Solid choice!\nKeeping the DB as is.");
         }
     }
 
@@ -313,7 +368,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @return All of the sentences that have been indexed into the edu.uiowa.cs.similarity.DB
+     * @return All of the sentences that have been indexed into the DB
      */
     public ArrayList<ArrayList<String>> getAllSentences() {
         return this.all_sentences;
@@ -328,7 +383,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @param check a word that may or may not exist in the edu.uiowa.cs.similarity.DB
+     * @param check a word that may or may not exist in the DB
      * @return a boolean representing whether or not the word is in the database
      */
     public boolean contains(String check) {
@@ -336,7 +391,7 @@ public class WordDB implements Database {
     }
 
     /**
-     * @return the semantic vectors stored in the edu.uiowa.cs.similarity.DB
+     * @return the semantic vectors stored in the DB
      */
     public Collection<SemanticVector> getVectors() {
         return this.words_as_vectors.values();

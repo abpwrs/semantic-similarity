@@ -146,7 +146,7 @@ public class Main {
                 // K-Means Command
                 //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
-                if (FileParser.isNumeric(s_command[1]) && FileParser.isNumeric(s_command[2])) {
+                if (s_command.length == 3 && FileParser.isNumeric(s_command[1]) && FileParser.isNumeric(s_command[2])) {
                     if (Integer.parseInt(s_command[2]) < wordDB.numVectors() - 1) {
                         HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
                         System.out.println(temp.entrySet().size());
@@ -165,6 +165,15 @@ public class Main {
                     System.out.println("Incorrect command usage");
                     printMenu();
                 }
+            } else if (s_command[0].equals("representatives") || s_command[0].equals("r")) {
+                if (s_command.length == 2 && FileParser.isNumeric(s_command[1])) {
+                    wordDB.representatives(Integer.parseInt(s_command[1]));
+                } else {
+                    System.out.println("Incorrect command usage");
+                    printMenu();
+                }
+
+
             } else {
                 System.err.println("Unrecognized command");
             }
