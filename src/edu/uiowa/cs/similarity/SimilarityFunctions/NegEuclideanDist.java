@@ -17,9 +17,9 @@ public class NegEuclideanDist extends SimilarityFunction {
     @Override
     public double calculateSimilarity(SemanticVector main_vector, SemanticVector comp_vector) {
         Double sum = 0.0;
-        if (main_vector.getMagnitude() == 0 || comp_vector.getMagnitude() == 0) {
-            return getUnrelatedValue();
-        }
+//        if (main_vector.getMagnitude() == 0 || comp_vector.getMagnitude() == 0) {
+//            return getUnrelatedValue();
+//        }
         for (Map.Entry<String, Double> entry : main_vector.getVector().entrySet()) {
             if (entry.getValue() != 0) {
                 if (comp_vector.getVector().containsKey(entry.getKey()) /*&& comp_vector.getVector().get(entry.getKey()) != 0*/) {

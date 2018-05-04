@@ -102,6 +102,23 @@ public class WordDB implements Database {
         String key = (String) randomKey;
         return this.words_as_vectors.get(key);
     }
+
+    private Double averageDist(HashMap<Integer, LinkedList<SemanticVector>> clusters, SemanticVector[] means) {
+        Double running_avg = 0.0;
+        Double cluster_avg = 0.0;
+        SimilarityFunction similarityFunction = new NegEuclideanDist();
+        for (int i = 0; i < clusters.size(); i++) {
+            for (SemanticVector vect : clusters.get(i)) {
+                cluster_avg += similarityFunction.calculateSimilarity(means[i], vect);
+            }
+            if (clusters.get(i).size() > 0) {
+                running_avg += cluster_avg / clusters.get(i).size();
+            }
+        }
+
+        return running_avg / clusters.size();
+
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -208,15 +225,6 @@ public class WordDB implements Database {
         SimilarityFunction simFunc = new NegEuclideanDist();
         SemanticVector means[] = new SemanticVector[k];
 
-        // attempt that selected initial values based on which vectors had the greatest magnitudes
-//        for (int i = 0; i < k; i++) {
-//            String max = Collections.max(magnitudes.entrySet(), Map.Entry.comparingByValue()).getKey();
-//            means[i] = words_as_vectors.get(max);
-//            magnitudes.remove(max);
-//
-//        }
-
-
         // sample without replacement for means initial values
         for (int i = 0; i < k; i++) {
             means[i] = this.sampleWithoutReplacement();
@@ -250,10 +258,14 @@ public class WordDB implements Database {
                 clusters.put(min_means_index, temp);
             }
 
+
+            // Print out how accurate the average distance between means and clusters is
+            System.out.println("Average Euclidean Distance for iteration: " + iter + " is " + this.averageDist(clusters, means));
+
             // Doesn't recalculate the means on the last iteration
             if (iter != iters - 1) {
+                // adjusts means
                 for (int i = 0; i < k; i++) {
-                    // adjusts means
                     means[i] = this.calculate_centroid(clusters.get(i));
 
                 }

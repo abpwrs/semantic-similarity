@@ -147,7 +147,7 @@ public class Main {
                 //////////////////////////////////////////////////////////////////////////
             } else if (s_command[0].equals("kmeans") || s_command[0].equals("k")) {
                 if (FileParser.isNumeric(s_command[1]) && FileParser.isNumeric(s_command[2])) {
-                    if (Integer.parseInt(s_command[2]) > wordDB.numVectors() - 1) {
+                    if (Integer.parseInt(s_command[2]) < wordDB.numVectors() - 1) {
                         HashMap<Integer, LinkedList<SemanticVector>> temp = wordDB.k_means(Integer.parseInt(s_command[1]), Integer.parseInt(s_command[2]));
                         System.out.println(temp.entrySet().size());
                         for (Map.Entry<Integer, LinkedList<SemanticVector>> entry : temp.entrySet()) {
