@@ -38,6 +38,8 @@ public class Main {
                 "\n                  Uses cosine by default, see \"measure\" command to change.");
         System.out.println("measure FUNCTION - Options include \"cosine\", \"euc\", or \"eucnorm\".");
         System.out.println("kmeans K ITERS - Generates K clusters iterated through ITERS times.");
+        System.out.println("representatives J - prints the final clusters using only the Top-J representatives, for " +
+                "each cluster of the latest run of k-means.");
     }
 
     /**
