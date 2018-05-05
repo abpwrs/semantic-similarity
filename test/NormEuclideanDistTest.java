@@ -27,9 +27,9 @@ public class NormEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[3].getWord(), 8, new NormEuclideanDist());
         //System.out.println(result);
-        assertEquals(result.get(0).getValue(), -1.16774, .00001);
-        assertEquals(result.get(1).getValue(), -1.20482, .00001);
-        assertEquals(result.get(5).getValue(), -1.24255, .00001);
+        assertEquals( -.80721, result.get(0).getValue(), .00001);
+        assertEquals(-.80721, result.get(1).getValue(), .00001);
+        assertEquals(-.89104, result.get(5).getValue(),.00001);
     }
 
     @Test
@@ -48,9 +48,9 @@ public class NormEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[12].getWord(), 8, new NegEuclideanDist());
         //System.out.println(result);
-        assertEquals(result.get(0).getValue(), -4.12310, .00001);
-        assertEquals(result.get(2).getValue(), -4.35889, .00001);
-        assertEquals(result.get(4).getValue(), -4.69041, .00001);
+        assertEquals(result.get(0).getValue(), -3.46410, .00001);
+        assertEquals(result.get(2).getValue(), -3.74165, .00001);
+        assertEquals(result.get(4).getValue(), -4.0, .00001);
     }
 
     @Test
@@ -69,9 +69,9 @@ public class NormEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[3].getWord(), 8, new NegEuclideanDist());
         //System.out.println(result);
-        assertEquals(result.get(0).getValue(), -21.86321, .00001);
-        assertEquals(result.get(1).getValue(), -21.86321, .00001);
-        assertEquals(result.get(2).getValue(), -21.86321, .00001);
-        assertEquals(result.get(3).getValue(), -21.86321, .00001);
+        assertEquals(result.get(0).getValue(), -5, .00001);
+        assertEquals(result.get(1).getValue(), -5, .00001);
+        assertEquals(result.get(2).getValue(), -5.47722, .00001);
+        assertEquals(result.get(3).getValue(), -9, .00001);
     }
 }
