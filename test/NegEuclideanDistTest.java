@@ -66,12 +66,12 @@ public class NegEuclideanDistTest {
         int i = 0;
         for (SemanticVector vector : testDB.getVectors()) {
             vectorArray[i] = vector;
-            if(i<10){vector.print();}
+            //if(i<10){vector.print();}
             i++;
         }
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[3].getWord(), 8, new NegEuclideanDist());
-        System.out.println(result);
+        //System.out.println(result);
         assertEquals(result.get(0).getValue(), -5, .00001);
         assertEquals(result.get(0).getValue(), -5, .00001);
         assertEquals(result.get(0).getValue(), -5, .00001);
