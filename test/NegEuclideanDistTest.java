@@ -28,10 +28,10 @@ public class NegEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[3].getWord(), 8, new NegEuclideanDist());
         //System.out.println(result);
-        assertEquals(result.get(0).getValue(), -3.16227, .00001);
-        assertEquals(result.get(7).getValue(), -3.87298, .00001);
-        assertEquals(result.get(1).getValue(), -3.16227, .00001);
-        assertEquals(result.get(2).getValue(), -3.16227, .00001);
+        assertEquals(result.get(0).getValue(), -2.44948, .00001);
+        assertEquals(result.get(7).getValue(), -2.82842, .00001);
+        assertEquals(result.get(1).getValue(), -2.44948, .00001);
+        assertEquals(result.get(2).getValue(), -2.44948, .00001);
     }
 
     @Test
@@ -50,10 +50,10 @@ public class NegEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[12].getWord(), 8, new NegEuclideanDist());
         //System.out.println(result);
-        assertEquals(result.get(0).getValue(), -4.12310, .00001);
-        assertEquals(result.get(3).getValue(), -4.35889, .00001);
-        assertEquals(result.get(4).getValue(), -4.69041, .00001);
-        assertEquals(result.get(5).getValue(), -5.91607, .00001);
+        assertEquals(result.get(0).getValue(), -3.46410, .00001);
+        assertEquals(result.get(3).getValue(), -4.0, .00001);
+        assertEquals(result.get(4).getValue(), -4.0, .00001);
+        assertEquals(result.get(5).getValue(), -4.24264, .00001);
     }
 
     @Test
@@ -72,9 +72,9 @@ public class NegEuclideanDistTest {
 
         ArrayList<Map.Entry<String,Double>> result = testDB.TopJ(vectorArray[3].getWord(), 8, new NegEuclideanDist());
         System.out.println(result);
-        assertEquals(result.get(0).getValue(), -18.33030, .00001);
-        assertEquals(result.get(0).getValue(), -18.33030, .00001);
-        assertEquals(result.get(0).getValue(), -18.33030, .00001);
-        assertEquals(result.get(0).getValue(), -18.33030, .00001);
+        assertEquals(result.get(0).getValue(), -5, .00001);
+        assertEquals(result.get(0).getValue(), -5, .00001);
+        assertEquals(result.get(0).getValue(), -5, .00001);
+        assertEquals(result.get(0).getValue(), -5, .00001);
     }
 }
