@@ -1,8 +1,8 @@
-package edu.uiowa.cs.similarity.DB;
+package DB;
 
-import edu.uiowa.cs.similarity.SimilarityFunctions.NegEuclideanDist;
-import edu.uiowa.cs.similarity.SimilarityFunctions.SimilarityFunction;
-import edu.uiowa.cs.similarity.Vectors.SemanticVector;
+import SimilarityFunctions.NegEuclideanDist;
+import SimilarityFunctions.SimilarityFunction;
+import Vectors.SemanticVector;
 
 import java.util.*;
 

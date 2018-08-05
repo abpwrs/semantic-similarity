@@ -1,12 +1,10 @@
-package edu.uiowa.cs.similarity;
-
-import edu.uiowa.cs.similarity.DB.FileParser;
-import edu.uiowa.cs.similarity.DB.WordDB;
-import edu.uiowa.cs.similarity.SimilarityFunctions.CosineSimilarity;
-import edu.uiowa.cs.similarity.SimilarityFunctions.NegEuclideanDist;
-import edu.uiowa.cs.similarity.SimilarityFunctions.NormEuclideanDist;
-import edu.uiowa.cs.similarity.SimilarityFunctions.SimilarityFunction;
-import edu.uiowa.cs.similarity.Vectors.SemanticVector;
+import DB.FileParser;
+import DB.WordDB;
+import SimilarityFunctions.CosineSimilarity;
+import SimilarityFunctions.NegEuclideanDist;
+import SimilarityFunctions.NormEuclideanDist;
+import SimilarityFunctions.SimilarityFunction;
+import Vectors.SemanticVector;
 import opennlp.tools.stemmer.PorterStemmer;
 
 import java.io.BufferedReader;

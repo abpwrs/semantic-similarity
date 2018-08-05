@@ -1,6 +1,6 @@
-package edu.uiowa.cs.similarity.SimilarityFunctions;
+package SimilarityFunctions;
 
-import edu.uiowa.cs.similarity.Vectors.SemanticVector;
+import Vectors.SemanticVector;
 
 import java.util.Map;
 

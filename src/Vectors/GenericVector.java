@@ -1,4 +1,4 @@
-package edu.uiowa.cs.similarity.Vectors;
+package Vectors;
 
 import java.util.ArrayList;
 import java.util.HashMap;

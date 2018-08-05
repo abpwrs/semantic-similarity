@@ -1,6 +1,6 @@
-package edu.uiowa.cs.similarity.SimilarityFunctions;
+package SimilarityFunctions;
 
-import edu.uiowa.cs.similarity.Vectors.SemanticVector;
+import Vectors.SemanticVector;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class CosineSimilarity extends SimilarityFunction {
      */
     @Override
     public String getMethodName() {
-        return "Cosine edu.uiowa.cs.similarity.SimilarityFunctions";
+        return "Cosine SimilarityFunctions";
     }
 
     /**
