@@ -116,6 +116,7 @@ public class WordDB implements Database {
      * @return returns a random SemanticVector in the DataSet
      */
     private SemanticVector sampleWithoutReplacement() {
+        // TODO: Make this truly without replacement
         Random generator = new Random();
         Object[] keys = this.words_as_vectors.keySet().toArray();
         Object randomKey = keys[generator.nextInt(keys.length)];
