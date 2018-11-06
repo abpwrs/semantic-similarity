@@ -1,4 +1,4 @@
-# CS2230_SemanticSimilarity
+# CS2230 semantic-similarity
 ##### Alex Powers [(@abpwrs)](https://github.com/abpwrs) and Ben Mitchinson [(@bmitchinson)](https://github.com/bmitchinson)        
 
 ## The Project         
